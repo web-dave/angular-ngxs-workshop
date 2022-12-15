@@ -6,7 +6,9 @@ import {
   State,
   StateContext,
 } from '@ngxs/store';
+import { tap } from 'rxjs/operators';
 import { Book } from '../models/book';
+import { BookApiService } from '../services/book-api.service';
 
 export namespace BooksActions {
   export class LoadAll {
@@ -45,13 +47,20 @@ export class BookState {
   }
 
   @Action(BooksActions.LoadAll)
-  loadAll(ctx: StateContext<BooksState>, action: BooksActions.LoadAll) {
-    const state = ctx.getState();
-    ctx.setState({
-      ...state,
-      entities: books,
-    });
+  loadAll(ctx: StateContext<BooksState>) {
+    return this.api.all().pipe(
+      tap((booksFromApi) =>
+        ctx.setState((state) => {
+          return {
+            ...state,
+            entities: booksFromApi,
+          };
+        })
+      )
+    );
   }
+
+  constructor(private api: BookApiService) {}
 }
 
 const books: Book[] = [
