@@ -28,7 +28,7 @@ import { environment } from 'src/environments/environment';
         suppressErrors: false,
       },
     }),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
+    environment.production ? [] : NgxsReduxDevtoolsPluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
