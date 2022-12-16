@@ -21,9 +21,21 @@ export interface INewBookInfoStep {
   };
 }
 
+export interface NewBookPriceStep {
+  model: {
+    price: number;
+  };
+  dirty: boolean;
+  status: string;
+  errors: {
+    [key: string]: any;
+  };
+}
+
 export interface INewBookState {
   step: NewBookStep;
   info: INewBookInfoStep;
+  price: NewBookPriceStep;
 }
 
 export namespace NewBookActions {
@@ -53,6 +65,14 @@ export namespace NewBookActions {
       dirty: false,
       errors: {},
     },
+    price: {
+      model: {
+        price: 0,
+      },
+      dirty: false,
+      status: '',
+      errors: {},
+    },
   },
 })
 @Injectable()
@@ -60,6 +80,19 @@ export class NewBookState {
   @Selector()
   static step(state: INewBookState) {
     return state.step;
+  }
+  @Selector()
+  static infoValid(state: INewBookState) {
+    return state.info.status === 'VALID';
+  }
+  @Selector()
+  static priceValid(state: INewBookState) {
+    return state.price.status === 'VALID';
+  }
+
+  @Selector()
+  static info(state: INewBookState) {
+    return state.info;
   }
 
   @Action(NewBookActions.SelectStep)

@@ -18,6 +18,7 @@ import { BookState } from './state/book.state';
 import { NewBookState } from './state/new.book.state';
 import { NewBookInfoComponent } from './new-book-info/new-book-info.component';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { NewBookPriceComponent } from './new-book-price/new-book-price.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
     BookDetailComponent,
     NewBookComponent,
     NewBookInfoComponent,
+    NewBookPriceComponent,
   ],
   imports: [
     CommonModule,
