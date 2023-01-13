@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext } from '@ngxs/store';
+import {
+  Action,
+  State,
+  StateContext,
+  Selector,
+  createSelector,
+} from '@ngxs/store';
 import { Book } from '../models/book';
 
 const books: Book[] = [
@@ -70,4 +76,20 @@ export class BooksState {
       entities: books,
     });
   }
+
+  @Selector()
+  static entities(state: BooksStateModel) {
+    return state.entities;
+  }
+
+  static selectOneBook(isbn: string) {
+    return createSelector([BooksState], (state: BooksStateModel) =>
+      state.entities.find((e) => e.isbn === isbn)
+    );
+  }
+  // @Selector()
+  // static selectOneBook(isbn: string) {
+  //   return (state: BooksStateModel) =>
+  //     state.entities.find((e) => e.isbn === isbn);
+  // }
 }
