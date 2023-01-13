@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { BooksActions } from './state/books.actions';
+import { BooksActions } from './state/books.state';
 
 @Component({
   selector: 'app-books',

@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { AppState } from './state/app.state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
     ReactiveFormsModule,
     HttpClientModule,
     CoreModule,
-    NgxsModule.forRoot([], {
+    NgxsModule.forRoot([AppState], {
       selectorOptions: {
         injectContainerState: false,
         suppressErrors: false,
