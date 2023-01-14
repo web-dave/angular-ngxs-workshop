@@ -93,6 +93,14 @@ export class NewBookState {
   static step(state: NewBookStateModel) {
     return state.step;
   }
+  @Selector()
+  static info(state: NewBookStateModel) {
+    return state.info;
+  }
+  @Selector()
+  static infoModel(state: NewBookStateModel) {
+    return state.info.model;
+  }
 
   @Action(NewBookAction.SelectStep)
   selectStep(

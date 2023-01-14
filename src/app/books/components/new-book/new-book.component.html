@@ -8,7 +8,6 @@
 </mat-button-toggle-group>
 <hr />
 <ng-container [ngSwitch]="step$ | async">
-  <kbd *ngSwitchCase="NewBookStep.INFO">INFO</kbd>
   <ws-new-book-info *ngSwitchCase="NewBookStep.INFO"></ws-new-book-info>
-  <kbd *ngSwitchCase="NewBookStep.PRICE">PRICE</kbd>
+  <ws-new-book-price *ngSwitchCase="NewBookStep.PRICE"></ws-new-book-price>
 </ng-container>
