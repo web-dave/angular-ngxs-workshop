@@ -7,6 +7,7 @@ import {
   NewBookStep,
 } from '../../state/new.book.state';
 import { Select, Store } from '@ngxs/store';
+import { asyncFoo, foo } from './my.validator';
 
 @Component({
   selector: 'ws-new-book-price',
@@ -18,10 +19,11 @@ export class NewBookPriceComponent implements OnInit {
     map((info) => {
       const minPrice = info.model.numPages > 100 ? 10 : 0;
       return new FormGroup({
-        price: new FormControl(0, [
-          Validators.required,
-          Validators.min(minPrice),
-        ]),
+        price: new FormControl(
+          0,
+          [Validators.required, Validators.minLength(minPrice)],
+          [asyncFoo(this.store)]
+        ),
       });
     })
   );

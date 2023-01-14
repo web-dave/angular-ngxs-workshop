@@ -5,13 +5,7 @@
   (ngSubmit)="submit()"
 >
   <mat-form-field>
-    <input
-      matInput
-      type="number"
-      formControlName="price"
-      placeholder="Price"
-      required
-    />
+    <input matInput type="text" formControlName="price" placeholder="Price" />
     <mat-error *ngIf="priceForm.get('price')?.hasError('min')">
       Price is too low ({{ priceForm.get("price")?.getError("min").min }})
     </mat-error>

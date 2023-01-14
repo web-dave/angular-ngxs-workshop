@@ -11,7 +11,9 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { AppState } from './state/app.state';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,9 +31,10 @@ import { AppState } from './state/app.state';
         suppressErrors: false,
       },
     }),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
+    [environment.production ? [] : NgxsReduxDevtoolsPluginModule.forRoot()],
     NgxsFormPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

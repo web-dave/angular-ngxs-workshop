@@ -123,6 +123,10 @@ export class NewBookState {
       step: action.step,
     });
   }
+  @Action(NewBookAction.Created)
+  created(ctx: StateContext<NewBookStateModel>, action: NewBookAction.Created) {
+    console.log('Done!!!!!!!!!!!!!!!!');
+  }
 
   @Action(NewBookAction.SubmitStep)
   submitStep(
