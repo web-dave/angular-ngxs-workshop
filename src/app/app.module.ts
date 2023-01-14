@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { AppState } from './state/app.state';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { AppState } from './state/app.state';
       },
     }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsFormPluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

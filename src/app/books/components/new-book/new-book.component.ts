@@ -6,6 +6,7 @@ import {
   NewBookStep,
 } from '../../state/new.book.state';
 import { Select, Store } from '@ngxs/store';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ws-new-book',

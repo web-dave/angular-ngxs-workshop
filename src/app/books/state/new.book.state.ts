@@ -12,6 +12,10 @@ export namespace NewBookAction {
     static readonly type = '[Books New] select step';
     constructor(public step: NewBookStep) {}
   }
+  export class SubmitStep {
+    static readonly type = '[Books New] submit step';
+    constructor(public step: NewBookStep) {}
+  }
 }
 
 export enum NewBookStep {
@@ -19,14 +23,68 @@ export enum NewBookStep {
   PRICE = 'price',
 }
 
+export interface NewBookInfoStepModel {
+  model: {
+    id: string;
+    isbn: string;
+    title: string;
+    subtitle: string;
+    cover: string;
+    author: string;
+    abstract: string;
+    numPages: number;
+    publisher: string;
+  };
+  dirty: boolean;
+  status: string;
+  errors: {
+    [key: string]: any;
+  };
+}
+export interface NewBookPriceStepModel {
+  model: {
+    price: string;
+  };
+  dirty: boolean;
+  status: string;
+  errors: {
+    [key: string]: any;
+  };
+}
 export interface NewBookStateModel {
   step: NewBookStep;
+  info: NewBookInfoStepModel;
+  price: NewBookPriceStepModel;
 }
 
 @State<NewBookStateModel>({
   name: 'new',
   defaults: {
     step: NewBookStep.INFO,
+    info: {
+      dirty: false,
+      errors: {},
+      status: '',
+      model: {
+        abstract: '',
+        author: '',
+        cover: '',
+        id: '',
+        isbn: '',
+        numPages: 0,
+        publisher: '',
+        subtitle: '',
+        title: '',
+      },
+    },
+    price: {
+      dirty: false,
+      errors: {},
+      status: '',
+      model: {
+        price: '',
+      },
+    },
   },
 })
 @Injectable()
@@ -44,5 +102,21 @@ export class NewBookState {
     ctx.patchState({
       step: action.step,
     });
+  }
+
+  @Action(NewBookAction.SubmitStep)
+  submitStep(
+    ctx: StateContext<NewBookStateModel>,
+    action: NewBookAction.SubmitStep
+  ) {
+    const state = ctx.getState();
+    const steps = Object.values(NewBookStep);
+    const nextStep = steps[steps.indexOf(action.step) + 1];
+    if (nextStep) {
+      ctx.setState({
+        ...state,
+        step: nextStep,
+      });
+    }
   }
 }

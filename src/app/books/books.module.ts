@@ -15,8 +15,11 @@ import { BookDetailComponent } from './components/book-detail/book-detail.compon
 import { NewBookComponent } from './components/new-book/new-book.component';
 
 import { NgxsModule } from '@ngxs/store';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { BooksState } from './state/books.state';
 import { NewBookState } from './state/new.book.state';
+import { NewBookInfoComponent } from './components/new-book-info/new-book-info.component';
+import { NewBookPriceComponent } from './components/new-book-price/new-book-price.component';
 @NgModule({
   declarations: [
     BooksComponent,
@@ -24,6 +27,8 @@ import { NewBookState } from './state/new.book.state';
     BookListComponent,
     BookDetailComponent,
     NewBookComponent,
+    NewBookInfoComponent,
+    NewBookPriceComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +42,7 @@ import { NewBookState } from './state/new.book.state';
     MatButtonToggleModule,
     MatSnackBarModule,
     NgxsModule.forFeature([BooksState, NewBookState]),
+    NgxsFormPluginModule,
   ],
 })
 export class BooksModule {}
