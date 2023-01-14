@@ -1,1 +1,13 @@
 <h2>New Book</h2>
+<mat-button-toggle-group
+  [value]="step$ | async"
+  (change)="selectStep($event.value)"
+>
+  <mat-button-toggle [value]="NewBookStep.INFO">Info</mat-button-toggle>
+  <mat-button-toggle [value]="NewBookStep.PRICE">Price</mat-button-toggle>
+</mat-button-toggle-group>
+<hr />
+<ng-container [ngSwitch]="step$ | async">
+  <kbd *ngSwitchCase="NewBookStep.INFO">INFO</kbd>
+  <kbd *ngSwitchCase="NewBookStep.PRICE">PRICE</kbd>
+</ng-container>
