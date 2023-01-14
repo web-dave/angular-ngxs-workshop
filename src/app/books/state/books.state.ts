@@ -6,10 +6,11 @@ import {
   Selector,
   createSelector,
 } from '@ngxs/store';
+import { append } from '@ngxs/store/operators';
 import { tap } from 'rxjs/operators';
 import { Book } from '../models/book';
 import { BookApiService } from '../services/book-api.service';
-import { NewBookState } from './new.book.state';
+import { NewBookAction, NewBookState } from './new.book.state';
 
 // const books: Book[] = [
 //   {
@@ -89,6 +90,13 @@ export class BooksState {
         // });
       })
     );
+  }
+  @Action(NewBookAction.Created)
+  created(ctx: StateContext<BooksStateModel>, action: NewBookAction.Created) {
+    const entities = ctx.getState().entities;
+    ctx.patchState({
+      entities: [...entities, action.book],
+    });
   }
 
   @Selector()

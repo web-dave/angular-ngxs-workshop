@@ -6,6 +6,10 @@ import {
   Selector,
   createSelector,
 } from '@ngxs/store';
+import { concatMap } from 'rxjs/operators';
+import { Book } from '../models/book';
+import { BookApiService } from '../services/book-api.service';
+import { Navigate } from '@ngxs/router-plugin';
 
 export namespace NewBookAction {
   export class SelectStep {
@@ -15,6 +19,11 @@ export namespace NewBookAction {
   export class SubmitStep {
     static readonly type = '[Books New] submit step';
     constructor(public step: NewBookStep) {}
+  }
+
+  export class Created {
+    static readonly type = '[Books New] created';
+    constructor(public book: Book) {}
   }
 }
 
@@ -57,35 +66,36 @@ export interface NewBookStateModel {
   price: NewBookPriceStepModel;
 }
 
-@State<NewBookStateModel>({
-  name: 'new',
-  defaults: {
-    step: NewBookStep.INFO,
-    info: {
-      dirty: false,
-      errors: {},
-      status: '',
-      model: {
-        abstract: '',
-        author: '',
-        cover: '',
-        id: '',
-        isbn: '',
-        numPages: 0,
-        publisher: '',
-        subtitle: '',
-        title: '',
-      },
-    },
-    price: {
-      dirty: false,
-      errors: {},
-      status: '',
-      model: {
-        price: '',
-      },
+const defaults = {
+  step: NewBookStep.INFO,
+  info: {
+    dirty: false,
+    errors: {},
+    status: '',
+    model: {
+      abstract: '',
+      author: '',
+      cover: '',
+      id: '',
+      isbn: '',
+      numPages: 0,
+      publisher: '',
+      subtitle: '',
+      title: '',
     },
   },
+  price: {
+    dirty: false,
+    errors: {},
+    status: '',
+    model: {
+      price: '',
+    },
+  },
+};
+@State<NewBookStateModel>({
+  name: 'new',
+  defaults: defaults,
 })
 @Injectable()
 export class NewBookState {
@@ -101,6 +111,8 @@ export class NewBookState {
   static infoModel(state: NewBookStateModel) {
     return state.info.model;
   }
+
+  constructor(private api: BookApiService) {}
 
   @Action(NewBookAction.SelectStep)
   selectStep(
@@ -121,10 +133,36 @@ export class NewBookState {
     const steps = Object.values(NewBookStep);
     const nextStep = steps[steps.indexOf(action.step) + 1];
     if (nextStep) {
-      ctx.setState({
+      return ctx.setState({
         ...state,
         step: nextStep,
       });
+    } else {
+      const invalidStep = steps.find((step) => {
+        const status = state[step].status;
+        return status !== 'VALID';
+      });
+      if (invalidStep) {
+        return ctx.setState({
+          ...state,
+          step: invalidStep,
+        });
+      } else {
+        return this.api
+          .create({
+            ...state.info.model,
+            price: state.price.model.price.toString(),
+          })
+          .pipe(
+            concatMap((created) => {
+              ctx.setState(defaults);
+              return ctx.dispatch([
+                new NewBookAction.Created(created),
+                new Navigate(['/books']),
+              ]);
+            })
+          );
+      }
     }
   }
 }
