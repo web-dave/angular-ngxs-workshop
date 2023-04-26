@@ -14,8 +14,17 @@ import { BookListComponent } from './components/book-list/book-list.component';
 import { BookDetailComponent } from './components/book-detail/book-detail.component';
 import { NewBookComponent } from './components/new-book/new-book.component';
 
+import { NgxsModule } from '@ngxs/store';
+import { BookState } from './state/book.state';
+
 @NgModule({
-  declarations: [BooksComponent, BookCardComponent, BookListComponent, BookDetailComponent, NewBookComponent],
+  declarations: [
+    BooksComponent,
+    BookCardComponent,
+    BookListComponent,
+    BookDetailComponent,
+    NewBookComponent,
+  ],
   imports: [
     CommonModule,
     BooksRoutingModule,
@@ -27,6 +36,7 @@ import { NewBookComponent } from './components/new-book/new-book.component';
     MatInputModule,
     MatButtonToggleModule,
     MatSnackBarModule,
+    NgxsModule.forFeature([BookState]),
   ],
 })
 export class BooksModule {}
