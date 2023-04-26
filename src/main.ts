@@ -7,6 +7,7 @@ import { environment } from './environments/environment';
 if (environment.production) {
   enableProdMode();
 }
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+// fetch('docker/prod.json').then(data => data.json()).then(data => data.prod)
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  .catch((err) => console.error(err));

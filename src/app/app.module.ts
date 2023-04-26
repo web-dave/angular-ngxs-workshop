@@ -24,7 +24,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
     NgxsModule.forRoot([], {
       developmentMode: isDevMode(), // Dev Features wie Object.freeze. Wird nur bei der entwicklung benötigt.
       selectorOptions: {
-        injectContainerState: false, // Jeder Selector checkt den State Container bei jeder Änderung. Nihct gut! Daher abgeschaltet. ab V4 Standardwert=false
+        injectContainerState: false, // Jeder Selector checkt den State Container bei jeder Änderung. Nicht gut! Daher abgeschaltet. ab V4 Standardwert=false
         suppressErrors: false, // Fehler verschlucken?  ab V4 standardwert=false
       },
     }),
