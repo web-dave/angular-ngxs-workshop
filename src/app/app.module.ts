@@ -28,7 +28,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
         suppressErrors: false, // Fehler verschlucken?  ab V4 standardwert=false
       },
     }),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot({ disabled: !isDevMode() }),
   ],
   providers: [],
   bootstrap: [AppComponent],

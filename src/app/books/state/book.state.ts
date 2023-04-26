@@ -6,7 +6,11 @@ import {
   Selector,
   createSelector,
 } from '@ngxs/store';
+import {} from '@ngxs/store/operators';
+import { tap } from 'rxjs/operators';
 import { Book, books } from '../models/book';
+import { BookApiService } from '../services/book-api.service';
+import { NewBookState } from './new-book.state';
 
 export namespace BookActions {
   export class LoadAll {
@@ -21,13 +25,24 @@ export interface BookStateModel {
 @State<BookStateModel>({
   name: 'books',
   defaults: { entites: [] },
+  children: [NewBookState],
 })
 @Injectable()
 export class BookState {
+  constructor(private service: BookApiService) {}
+
   @Action(BookActions.LoadAll)
   loadAll(ctx: StateContext<BookStateModel>, action: BookActions.LoadAll) {
-    const state = ctx.getState();
-    ctx.setState({ ...state, entites: books });
+    return this.service.all().pipe(
+      tap((data) => {
+        ctx.setState((state) => ({
+          ...state,
+          entites: data,
+        }));
+      })
+    );
+    // const state = ctx.getState();
+    // ctx.setState({ ...state, entites: books });
   }
 
   @Selector()
