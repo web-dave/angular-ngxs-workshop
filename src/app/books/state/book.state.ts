@@ -46,6 +46,10 @@ export class BookState {
   }
 
   @Selector()
+  static bookState(state: BookStateModel) {
+    return state;
+  }
+  @Selector()
   static entities(state: BookStateModel) {
     return state.entites;
   }

@@ -4,7 +4,8 @@
     <mat-button-toggle [value]="newBookStep.price">Price</mat-button-toggle>
   </mat-button-toggle-group>
   <ng-container [ngSwitch]="step">
-    <p *ngSwitchCase="newBookStep.info">Info Step</p>
+    <ws-new-book-info *ngSwitchCase="newBookStep.info"></ws-new-book-info>
+
     <p *ngSwitchCase="newBookStep.price">Price Step</p>
   </ng-container>
 </ng-container>

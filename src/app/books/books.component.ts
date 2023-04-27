@@ -22,5 +22,8 @@ export class BooksComponent implements OnInit {
       },
     });
     this.store.dispatch(new BookActions.LoadAll());
+    this.store
+      .select(BookState.bookState)
+      .subscribe((data) => console.log(data));
   }
 }
