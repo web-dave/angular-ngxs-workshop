@@ -6,11 +6,12 @@ import {
   Selector,
   createSelector,
 } from '@ngxs/store';
-import {} from '@ngxs/store/operators';
+import { append, patch } from '@ngxs/store/operators';
 import { tap } from 'rxjs/operators';
 import { Book, books } from '../models/book';
 import { BookApiService } from '../services/book-api.service';
-import { NewBookState } from './new-book.state';
+import { NewBookActions } from './new-book/new-book.actions';
+import { NewBookState } from './new-book/new-book.state';
 
 export namespace BookActions {
   export class LoadAll {
@@ -43,6 +44,15 @@ export class BookState {
     );
     // const state = ctx.getState();
     // ctx.setState({ ...state, entites: books });
+  }
+
+  @Action(NewBookActions.Created)
+  create(ctx: StateContext<BookStateModel>, action: NewBookActions.Created) {
+    ctx.setState(
+      patch({
+        entites: append([action.book]),
+      })
+    );
   }
 
   @Selector()

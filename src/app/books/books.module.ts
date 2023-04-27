@@ -16,7 +16,7 @@ import { NewBookComponent } from './components/new-book/new-book.component';
 
 import { NgxsModule } from '@ngxs/store';
 import { BookState } from './state/book.state';
-import { NewBookState } from './state/new-book.state';
+import { NewBookState } from './state/new-book/new-book.state';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NewBookInfoComponent } from './components/new-book-info/new-book-info.component';
 import { NewBookPriceComponent } from './components/new-book-price/new-book-price.component';

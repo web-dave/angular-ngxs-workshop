@@ -1,55 +1,12 @@
 import { Injectable } from '@angular/core';
 import { State, StateContext, Selector, Action } from '@ngxs/store';
-
-export interface NewBookPriceStepModel {
-  model: {
-    price: number;
-  };
-  dirty: boolean;
-  status: string;
-  error: {
-    [key: string]: any;
-  };
-}
-export interface NewBookInfoStepModel {
-  model: {
-    isbn: string;
-    title: string;
-    subtitle: string;
-    cover: string;
-    author: string;
-    abstract: string;
-    numPages: number;
-    publisher: string;
-  };
-  dirty: boolean;
-  status: string;
-  error: {
-    [key: string]: any;
-  };
-}
-
-export enum NewBookStep {
-  info = 'INFO',
-  price = 'PRICE',
-}
-export interface NewBookStateModel {
-  step: NewBookStep;
-  info: NewBookInfoStepModel;
-  price: NewBookPriceStepModel;
-}
-
-export namespace NewBookActions {
-  export class SetStep {
-    static type = '[NEW BOOK] select Step';
-    constructor(public step: NewBookStep) {}
-  }
-
-  export class SubmitStep {
-    static type = '[NEW BOOK] submit step';
-    constructor(public step: NewBookStep) {}
-  }
-}
+import { Observable } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
+import { Book } from '../../models/book';
+import { BookApiService } from '../../services/book-api.service';
+import { BookActions } from '../book.state';
+import { NewBookActions } from './new-book.actions';
+import { NewBookStateModel, NewBookStep } from './new-book.models';
 
 @State<NewBookStateModel>({
   name: 'new',
@@ -107,7 +64,7 @@ export class NewBookState {
   submitStep(
     ctx: StateContext<NewBookStateModel>,
     action: NewBookActions.SubmitStep
-  ) {
+  ): void | Observable<any> {
     const state = ctx.getState();
     const steps = Object.values(NewBookStep);
     const nextStep = steps[steps.indexOf(action.step) + 1];
@@ -118,7 +75,17 @@ export class NewBookState {
       });
     } else {
       //crete book
+      return this.service
+        .create({
+          ...state.info.model,
+          price: '$' + state.price.model.price,
+        })
+        .pipe(
+          concatMap((book) => ctx.dispatch(new NewBookActions.Created(book)))
+        );
       //set State
     }
   }
+
+  constructor(private service: BookApiService) {}
 }

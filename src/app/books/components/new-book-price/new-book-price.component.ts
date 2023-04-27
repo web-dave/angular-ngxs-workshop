@@ -3,11 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngxs/store';
 import { map } from 'rxjs/operators';
-import {
-  NewBookActions,
-  NewBookState,
-  NewBookStep,
-} from '../../state/new-book.state';
+import { NewBookActions } from '../../state/new-book/new-book.actions';
+import { NewBookStep } from '../../state/new-book/new-book.models';
+import { NewBookState } from '../../state/new-book/new-book.state';
 
 @Component({
   selector: 'ws-new-book-price',

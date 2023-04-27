@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  NewBookStep,
-  NewBookState,
-  NewBookActions,
-} from '../../state/new-book.state';
+import { NewBookState } from '../../state/new-book/new-book.state';
 import { Select, Store } from '@ngxs/store';
+import { NewBookActions } from '../../state/new-book/new-book.actions';
+import { NewBookStep } from '../../state/new-book/new-book.models';
 
 @Component({
   selector: 'ws-new-book',
