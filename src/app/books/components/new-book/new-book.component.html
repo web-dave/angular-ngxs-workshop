@@ -6,6 +6,6 @@
   <ng-container [ngSwitch]="step">
     <ws-new-book-info *ngSwitchCase="newBookStep.info"></ws-new-book-info>
 
-    <p *ngSwitchCase="newBookStep.price">Price Step</p>
+    <ws-new-book-price *ngSwitchCase="newBookStep.price"></ws-new-book-price>
   </ng-container>
 </ng-container>

@@ -1,6 +1,16 @@
 import { Injectable } from '@angular/core';
 import { State, StateContext, Selector, Action } from '@ngxs/store';
 
+export interface NewBookPriceStepModel {
+  model: {
+    price: number;
+  };
+  dirty: boolean;
+  status: string;
+  error: {
+    [key: string]: any;
+  };
+}
 export interface NewBookInfoStepModel {
   model: {
     isbn: string;
@@ -26,6 +36,7 @@ export enum NewBookStep {
 export interface NewBookStateModel {
   step: NewBookStep;
   info: NewBookInfoStepModel;
+  price: NewBookPriceStepModel;
 }
 
 export namespace NewBookActions {
@@ -59,6 +70,14 @@ export namespace NewBookActions {
       status: '',
       error: {},
     },
+    price: {
+      model: {
+        price: 0,
+      },
+      dirty: false,
+      error: {},
+      status: '',
+    },
   },
 })
 @Injectable()
@@ -66,6 +85,11 @@ export class NewBookState {
   @Selector()
   static step(state: NewBookStateModel) {
     return state.step;
+  }
+
+  @Selector()
+  static numPages(state: NewBookStateModel) {
+    return state.info.model.numPages;
   }
 
   @Action(NewBookActions.SetStep)
@@ -92,6 +116,9 @@ export class NewBookState {
         ...state,
         step: nextStep,
       });
+    } else {
+      //crete book
+      //set State
     }
   }
 }
