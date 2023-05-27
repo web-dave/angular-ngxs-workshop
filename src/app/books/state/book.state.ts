@@ -11,7 +11,7 @@ import { Book } from '../models/book';
 import { BooksActions } from './book.actions';
 import { BookApiService } from '../services/book-api.service';
 import { tap } from 'rxjs/operators';
-import { NewBookState } from './new-book.state';
+import { NewBookActions, NewBookState } from './new-book.state';
 
 export interface IBooksState {
   entities: Book[];
@@ -50,5 +50,16 @@ export class BooksState {
         });
       })
     );
+  }
+
+  @Action(NewBookActions.SubmitStep)
+  createBook(ctx: StateContext<IBooksState>, action: BooksActions.LoadAll) {
+    // console.log(ctx.getState());
+    //   else {
+    //     const book: Book = {
+    //       ...ctx.getState().info.model,
+    //       price: String(ctx.getState().price.model.price),
+    //     };
+    // this.service.create(book).pipe();
   }
 }

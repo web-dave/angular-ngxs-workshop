@@ -102,6 +102,7 @@ export class NewBookState {
   static numpages(state: INewBookState) {
     return state.info.model.numPages;
   }
+  constructor(private service: BookApiService) {}
 
   @Action(NewBookActions.SelectStep)
   selectStep(
