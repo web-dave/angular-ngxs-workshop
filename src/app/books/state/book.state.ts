@@ -5,9 +5,12 @@ import {
   StateContext,
   createSelector,
   Selector,
+  ofActionSuccessful,
 } from '@ngxs/store';
 import { Book } from '../models/book';
 import { BooksActions } from './book.actions';
+import { BookApiService } from '../services/book-api.service';
+import { tap } from 'rxjs/operators';
 
 const books: Book[] = [
   {
@@ -67,6 +70,8 @@ export class BooksState {
     return state.entities;
   }
 
+  constructor(private service: BookApiService) {}
+
   static entity(isbn: string) {
     return createSelector([BooksState], (state: IBooksState) => {
       return state.entities.find((entity) => entity.isbn === isbn);
@@ -75,10 +80,14 @@ export class BooksState {
 
   @Action(BooksActions.LoadAll)
   hurz(ctx: StateContext<IBooksState>, action: BooksActions.LoadAll) {
-    const state = ctx.getState();
-    ctx.setState({
-      ...state,
-      entities: books,
-    });
+    return this.service.all().pipe(
+      tap((data) => {
+        const state = ctx.getState();
+        ctx.setState({
+          ...state,
+          entities: data,
+        });
+      })
+    );
   }
 }

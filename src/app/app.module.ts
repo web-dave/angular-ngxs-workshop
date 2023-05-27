@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,7 @@ import { CoreModule } from './core/core.module';
     ReactiveFormsModule,
     HttpClientModule,
     CoreModule,
+    MatSnackBarModule,
     NgxsModule.forRoot([]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
   ],
