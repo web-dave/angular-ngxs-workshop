@@ -16,10 +16,10 @@
         placeholder="Number of Pages"
         required
       />
-      <mat-error *ngIf="infoForm.get('isbn')?.hasError('minlength')">
+      <mat-error *ngIf="infoForm.get('numPages')?.hasError('min')">
         Book needs at least one page
       </mat-error>
-      <mat-error *ngIf="infoForm.get('isbn')?.hasError('required')">
+      <mat-error *ngIf="infoForm.get('numPages')?.hasError('required')">
         Number of pages is required
       </mat-error> </mat-form-field
     >

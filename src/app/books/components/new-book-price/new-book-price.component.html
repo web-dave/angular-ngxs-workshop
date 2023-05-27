@@ -1,1 +1,19 @@
-<p>new-book-price works!</p>
+<ng-container *ngIf="priceForm$ | async as priceForm">
+<form [formGroup]="priceForm" ngxsForm="BookFeature.new.price">
+    <mat-form-field>
+        <input
+          matInput
+          type="number"
+          formControlName="price"
+          placeholder="Price if the Book"
+          required
+        />
+        <mat-error *ngIf="priceForm.get('price')?.hasError('min')">
+          Minimum Price is {{minPrice$|async}}€
+        </mat-error>
+        <mat-error *ngIf="priceForm.get('price')?.hasError('required')">
+          Define a Price at least  {{minPrice$|async}}€
+        </mat-error>
+        </mat-form-field>
+</form>
+</ng-container>
