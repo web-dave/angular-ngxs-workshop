@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxsModule } from '@ngxs/store';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -24,6 +25,7 @@ import { CoreModule } from './core/core.module';
     MatSnackBarModule,
     NgxsModule.forRoot([]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsFormPluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
