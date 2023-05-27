@@ -1,7 +1,8 @@
 <ng-container *ngIf="step$ | async as step">
     <mat-button-toggle-group [value]="step" (change)="selectStep($event.value)">
-      <mat-button-toggle [value]="NewBookStep.info">Info</mat-button-toggle>
-      <mat-button-toggle [value]="NewBookStep.price">Price</mat-button-toggle>
+      <mat-button-toggle *ngFor="let b of btns" [value]="b">{{b}}</mat-button-toggle>
+      <!-- <mat-button-toggle [value]="NewBookStep.info">Info</mat-button-toggle>
+      <mat-button-toggle [value]="NewBookStep.price">Price</mat-button-toggle> -->
     </mat-button-toggle-group>
     <ng-container [ngSwitch]="step">
       <p *ngSwitchCase="NewBookStep.info">Info Step</p>

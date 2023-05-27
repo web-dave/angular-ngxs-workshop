@@ -16,6 +16,7 @@ export class NewBookComponent implements OnInit {
   NewBookStep = NewBookStep;
   @Select(NewBookState.step)
   step$!: Observable<NewBookStep>;
+  btns = Object.values(NewBookStep);
   constructor(private store: Store) {}
 
   ngOnInit(): void {}
