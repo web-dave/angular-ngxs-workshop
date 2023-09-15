@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext } from '@ngxs/store';
+import {
+  State,
+  Action,
+  StateContext,
+  Selector,
+  createSelector,
+} from '@ngxs/store';
 
 import { Book } from '../models/book';
 
-export interface BookStateModel {
+export interface BooksStateModel {
   entities: Book[];
 }
 export namespace BooksActions {
@@ -13,22 +19,29 @@ export namespace BooksActions {
   }
 }
 
-export interface BookStateModel {
-  entities: Book[];
-}
-
-@State<BookStateModel>({
+@State<BooksStateModel>({
   name: 'books',
   defaults: {
     entities: [],
   },
 })
 @Injectable()
-export class BookState {
+export class BooksState {
   @Action(BooksActions.LoadAll)
-  loadAll(ctx: StateContext<BookStateModel>, action: BooksActions.LoadAll) {
+  loadAll(ctx: StateContext<BooksStateModel>, action: BooksActions.LoadAll) {
     ctx.patchState({
       entities: action.books,
+    });
+  }
+
+  @Selector()
+  static entities(state: BooksStateModel) {
+    return state.entities;
+  }
+
+  static entity(isbn: string) {
+    return createSelector([BooksState], (state: BooksStateModel) => {
+      return state.entities.find((entity) => entity.isbn === isbn);
     });
   }
 }

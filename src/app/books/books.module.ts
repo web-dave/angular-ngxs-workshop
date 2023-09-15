@@ -14,7 +14,7 @@ import { BookCardComponent } from './components/book-card/book-card.component';
 import { BookListComponent } from './components/book-list/book-list.component';
 import { BookDetailComponent } from './components/book-detail/book-detail.component';
 import { NewBookComponent } from './components/new-book/new-book.component';
-import { BookState } from './state/books.state';
+import { BooksState } from './state/books.state';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { BookState } from './state/books.state';
     MatInputModule,
     MatButtonToggleModule,
     MatSnackBarModule,
-    NgxsModule.forFeature([BookState]),
+    NgxsModule.forFeature([BooksState]),
   ],
 })
 export class BooksModule {}
