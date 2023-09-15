@@ -8,6 +8,9 @@ import {
 } from '@ngxs/store';
 
 import { Book } from '../models/book';
+import { BookApiService } from '../services/book-api.service';
+import { tap } from 'rxjs/operators';
+import { NewBookState } from './new-book.state';
 
 export interface BooksStateModel {
   entities: Book[];
@@ -15,7 +18,6 @@ export interface BooksStateModel {
 export namespace BooksActions {
   export class LoadAll {
     static readonly type = '[BOOKS] Load All';
-    constructor(public books: Book[]) {}
   }
 }
 
@@ -24,14 +26,19 @@ export namespace BooksActions {
   defaults: {
     entities: [],
   },
+  children: [NewBookState],
 })
 @Injectable()
 export class BooksState {
   @Action(BooksActions.LoadAll)
   loadAll(ctx: StateContext<BooksStateModel>, action: BooksActions.LoadAll) {
-    ctx.patchState({
-      entities: action.books,
-    });
+    return this.service.all().pipe(
+      tap((books) =>
+        ctx.patchState({
+          entities: books,
+        })
+      )
+    );
   }
 
   @Selector()
@@ -44,4 +51,6 @@ export class BooksState {
       return state.entities.find((entity) => entity.isbn === isbn);
     });
   }
+
+  constructor(private service: BookApiService) {}
 }
