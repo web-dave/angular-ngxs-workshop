@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store, Select } from '@ngxs/store';
+import {
+  NewBookActions,
+  NewBookState,
+  NewBookStep,
+} from '../../state/new-book.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ws-new-book',
   templateUrl: './new-book.component.html',
-  styleUrls: ['./new-book.component.scss']
+  styleUrls: ['./new-book.component.scss'],
 })
-export class NewBookComponent implements OnInit {
+export class NewBookComponent {
+  NewBookStep = NewBookStep;
 
-  constructor() { }
+  @Select(NewBookState.step)
+  step$!: Observable<NewBookStep>;
 
-  ngOnInit(): void {
+  constructor(private store: Store) {}
+
+  selectStep(step: NewBookStep) {
+    this.store.dispatch(new NewBookActions.SelectStep(step));
   }
-
 }
