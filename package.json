@@ -23,6 +23,7 @@
     "@angular/router": "~12.2.0",
     "@ngxs/devtools-plugin": "^3.8.1",
     "@ngxs/form-plugin": "^3.8.1",
+    "@ngxs/router-plugin": "^3.8.1",
     "@ngxs/store": "^3.8.1",
     "@ngxs/websocket-plugin": "^3.8.1",
     "rxjs": "~6.6.0",

@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsWebsocketPluginModule } from '@ngxs/websocket-plugin';
+import { MessagesState } from './state/app.state';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,9 +33,7 @@ import { NgxsWebsocketPluginModule } from '@ngxs/websocket-plugin';
     }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
-    NgxsWebsocketPluginModule.forRoot({
-      url: 'ws://localhost:4000',
-    }),
+    NgxsRouterPluginModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

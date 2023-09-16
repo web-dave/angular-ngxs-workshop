@@ -6,11 +6,6 @@ export enum NewBookStep {
   price = 'price',
 }
 
-export interface NewBookStateModel {
-  step: NewBookStep;
-  info: NewBookInfoStepModel;
-}
-
 export interface NewBookInfoStepModel {
   model: {
     isbn: string;
@@ -23,6 +18,23 @@ export interface NewBookInfoStepModel {
   errors: {
     [key: string]: any;
   };
+}
+
+export interface NewBookPriceStep {
+  model: {
+    price: number;
+  };
+  dirty: boolean;
+  status: string;
+  errors: {
+    [key: string]: any;
+  };
+}
+
+export interface NewBookStateModel {
+  step: NewBookStep;
+  info: NewBookInfoStepModel;
+  price: NewBookPriceStep;
 }
 
 export namespace NewBookActions {
@@ -52,6 +64,14 @@ export namespace NewBookActions {
       status: '',
       errors: {},
     },
+    price: {
+      model: {
+        price: 0,
+      },
+      dirty: false,
+      status: '',
+      errors: {},
+    },
   },
 })
 @Injectable()
@@ -59,6 +79,16 @@ export class NewBookState {
   @Selector()
   static step(state: NewBookStateModel) {
     return state.step;
+  }
+
+  @Selector()
+  static infoStatus(state: NewBookStateModel) {
+    return state?.info?.status;
+  }
+
+  @Selector()
+  static info(state: NewBookStateModel) {
+    return state.info;
   }
 
   @Action(NewBookActions.SelectStep)
@@ -86,11 +116,6 @@ export class NewBookState {
         step: nextStep,
       });
     }
-  }
-
-  @Selector()
-  static infoStatus(state: NewBookStateModel) {
-    return state?.info?.status;
   }
 
   constructor() {
