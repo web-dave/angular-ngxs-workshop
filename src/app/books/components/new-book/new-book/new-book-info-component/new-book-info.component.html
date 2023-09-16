@@ -4,6 +4,9 @@
     <mat-error *ngIf="infoForm.get('isbn')?.hasError('minlength')">
       ISBN has to be at least 3 characters long.
     </mat-error>
+    <mat-error *ngIf="infoForm.get('isbn')?.hasError('isbnExist')">
+      {{ infoForm.get("isbn")?.errors?.isbnExist }}
+    </mat-error>
     <mat-error *ngIf="infoForm.get('isbn')?.hasError('required')">
       ISBN is required
     </mat-error>
@@ -19,6 +22,7 @@
     <mat-error *ngIf="infoForm.get('isbn')?.hasError('minlength')">
       Book needs at least one page
     </mat-error>
+
     <mat-error *ngIf="infoForm.get('isbn')?.hasError('required')">
       Number of pages is required
     </mat-error>
@@ -33,6 +37,9 @@
     <input matInput formControlName="author" placeholder="Author" required />
     <mat-error *ngIf="infoForm.get('author')?.hasError('required')">
       Author is required
+    </mat-error>
+    <mat-error *ngIf="infoForm.get('author')?.hasError('author')">
+      {{ infoForm.get("author")?.errors?.author }}
     </mat-error>
   </mat-form-field>
   <div>
