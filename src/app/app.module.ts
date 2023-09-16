@@ -9,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { NgxsWebsocketPluginModule } from '@ngxs/websocket-plugin';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +30,10 @@ import { CoreModule } from './core/core.module';
       },
     }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsFormPluginModule.forRoot(),
+    NgxsWebsocketPluginModule.forRoot({
+      url: 'ws://localhost:4000',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
