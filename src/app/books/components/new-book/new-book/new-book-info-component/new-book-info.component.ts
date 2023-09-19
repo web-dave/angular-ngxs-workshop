@@ -9,7 +9,7 @@ import {
   AsyncValidatorFn,
 } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { Observable, of, timer } from 'rxjs';
+import { MonoTypeOperatorFunction, Observable, of, pipe, timer } from 'rxjs';
 import {
   catchError,
   debounce,
@@ -44,11 +44,18 @@ const AuthorValidator: ValidatorFn = (
   };
 };
 
+const myOperator = (): MonoTypeOperatorFunction<any> =>
+  pipe(
+    debounceTime(1500),
+    map((value: string) => value.toUpperCase())
+  );
+
 const asyncISBNValidator =
   (service: BookApiService): AsyncValidatorFn =>
   (control: AbstractControl): Observable<ValidationErrors | null> =>
     control.valueChanges.pipe(
-      debounceTime(1500),
+      myOperator(),
+
       switchMap((isbn) => service.one(isbn)),
       map((book) => ({
         isbnExist: `${book.isbn} existiert bereits und ist an '${book.title}' vergeben`,
