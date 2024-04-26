@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Action, Selector, State, StateContext, createSelector } from '@ngxs/store';
-import { BookCollectionStateModel, books } from './book-collection.model';
+import { BookCollectionStateModel } from './book-collection.model';
 import { BookLoadAll } from './book-collection.actions';
+import { BookApiService } from '../book-api.service';
+import { tap } from 'rxjs';
 
 @State<BookCollectionStateModel>({
   name: 'BookCollection',
@@ -11,9 +13,14 @@ import { BookLoadAll } from './book-collection.actions';
 })
 @Injectable()
 export class BookCollectionState {
+  service = inject(BookApiService);
   @Action(BookLoadAll)
   booksLoadAll(ctx: StateContext<BookCollectionStateModel>, action: BookLoadAll) {
-    ctx.setState(state => ({ ...state, entities: books }));
+    return this.service.getAll().pipe(
+      tap(books => {
+        ctx.setState(state => ({ ...state, entities: books }));
+      })
+    );
   }
 
   @Selector()
