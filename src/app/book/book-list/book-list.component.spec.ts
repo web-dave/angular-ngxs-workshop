@@ -5,6 +5,9 @@ import { BookApiService } from '../book-api.service';
 import { of } from 'rxjs';
 import { bookNa } from '../models';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BookLoadAll } from '../state/book-collection.actions';
+import { BookCollectionState } from '../state/Book-collection.state';
+import { NewBookState } from '../state/new-book.state';
 
 
 describe('BookListComponent', () => {
@@ -14,7 +17,7 @@ let mockApi = jasmine.createSpyObj<BookApiService>(['getAll']);
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BookListComponent, RouterTestingModule],
-      providers:[provideStore(),
+      providers:[provideStore([BookCollectionState,NewBookState]),
     {
         provide: BookApiService,
         useValue: mockApi
@@ -30,9 +33,14 @@ mockApi.getAll.and.returnValue(of([bookNa(),bookNa(),bookNa()]))
     expect(component).toBeTruthy();
   });
 
-  it('should show books',()=>{
-    // const store = TestBed.inject(Store)
-    // store.dispatch({})
+  it('should show books (service)',()=>{
 expect(fixture.nativeElement.querySelectorAll('ws-book-card').length).toBe(3)
+  })
+  
+  it('should show books (store)',()=>{
+    const store = TestBed.inject(Store)
+    store.dispatch(new BookLoadAll())
+    fixture.detectChanges()
+expect(fixture.nativeElement.querySelectorAll('ws-book-card').length).toBe(6)
   })
 });

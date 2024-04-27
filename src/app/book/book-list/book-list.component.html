@@ -4,5 +4,8 @@
   @for (book of books$ | async; track book.isbn) {
     <ws-book-card [content]="book"></ws-book-card>
   }
+  @for (book of booksState$ | async; track book.isbn) {
+    <ws-book-card [content]="book"></ws-book-card>
+  }
 </div>
 <!-- <button *ngFor="let b of books$ | async"></button> -->

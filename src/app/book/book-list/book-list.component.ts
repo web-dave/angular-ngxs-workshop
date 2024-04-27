@@ -15,7 +15,7 @@ import { BookApiService } from '../book-api.service';
   imports: [BookCardComponent, AsyncPipe]
 })
 export class BookListComponent {
-  // @Select(BookCollectionState.entities)
-  // protected books$!: Observable<Book[]>;
+  @Select(BookCollectionState.entities)
+  protected booksState$!: Observable<Book[]>;
   books$ =inject(BookApiService).getAll()
 }
