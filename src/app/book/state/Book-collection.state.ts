@@ -5,6 +5,7 @@ import { BookLoadAll } from './book-collection.actions';
 import { BookApiService } from '../book-api.service';
 import { tap } from 'rxjs';
 import { NewBookState } from './new-book.state';
+import { AddBook } from './new-book.actions';
 
 @State<BookCollectionStateModel>({
   name: 'BookCollection',
@@ -23,6 +24,14 @@ export class BookCollectionState {
         ctx.setState(state => ({ ...state, entities: books }));
       })
     );
+  }
+
+  @Action(AddBook)
+  addBook(ctx: StateContext<BookCollectionStateModel>, action: AddBook) {
+    ctx.setState(state => ({
+      ...state,
+      entities: [...state.entities, action.book]
+    }));
   }
 
   @Selector()

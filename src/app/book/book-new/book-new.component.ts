@@ -16,13 +16,14 @@ import { Select, Store } from '@ngxs/store';
 import { NewBookSelectStep } from '../state/new-book.actions';
 import { NewBookState } from '../state/new-book.state';
 import { BookNewInfoComponent } from './book-new-info/book-new-info.component';
+import { BookNewPriceComponent } from './book-new-price/book-new-price.component';
 
 @Component({
   selector: 'ws-book-new',
   styleUrls: ['./book-new.component.scss'],
   templateUrl: './book-new.component.html',
   standalone: true,
-  imports: [BookNewInfoComponent, MatButtonToggle, MatButtonToggleGroup, AsyncPipe]
+  imports: [BookNewInfoComponent, BookNewPriceComponent, MatButtonToggle, MatButtonToggleGroup, AsyncPipe]
 })
 export class BookNewComponent {
   NewBookStep = NewBookStep;
@@ -46,16 +47,6 @@ export class BookNewComponent {
   @Select(NewBookState.currentStep)
   step$!: Observable<NewBookStep>;
 
-  create() {
-    const book = { ...bookNa(), ...this.form.getRawValue() };
-    this.bookService
-      .create(book)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap(() => this.router.navigateByUrl('/'))
-      )
-      .subscribe();
-  }
   selectStep(step: NewBookStep) {
     this.store.dispatch(new NewBookSelectStep(step));
   }

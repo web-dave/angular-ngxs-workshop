@@ -21,8 +21,19 @@ export interface NewBookInfoStepModel {
     [key: string]: ValidationErrors | null;
   };
 }
+export interface NewBookPriceStepModel {
+  model: {
+    price: number;
+  };
+  dirty: boolean;
+  status: string;
+  errors: {
+    [key: string]: ValidationErrors | null;
+  };
+}
 
 export interface NewBookStateModel {
   step: NewBookStep;
   info: NewBookInfoStepModel;
+  price: NewBookPriceStepModel;
 }
