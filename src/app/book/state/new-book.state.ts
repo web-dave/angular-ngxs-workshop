@@ -4,7 +4,7 @@ import { NewBookStateModel, NewBookStep } from './new-book.model';
 import { AddBook, NewBookSelectStep, NewBookSubmitStep } from './new-book.actions';
 import { BookApiService } from '../book-api.service';
 import { Book } from '../models';
-import { of, tap } from 'rxjs';
+import { concatMap, of } from 'rxjs';
 const defaults: NewBookStateModel = {
   step: NewBookStep.info,
   info: {
@@ -56,7 +56,12 @@ export class NewBookState {
       return of(null);
     } else {
       const book = { ...state.info.model, ...state.price.model } as Book;
-      return this.service.create(book).pipe(tap(book => ctx.dispatch(new AddBook(book))));
+      return this.service.create(book).pipe(
+        concatMap(book => {
+          ctx.setState(defaults);
+          return ctx.dispatch(new AddBook(book));
+        })
+      );
     }
   }
 

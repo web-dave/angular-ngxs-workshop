@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Action, Selector, State, StateContext, createSelector } from '@ngxs/store';
+import { Navigate } from '@ngxs/router-plugin';
 import { BookCollectionStateModel } from './book-collection.model';
 import { BookLoadAll } from './book-collection.actions';
 import { BookApiService } from '../book-api.service';
@@ -32,6 +33,7 @@ export class BookCollectionState {
       ...state,
       entities: [...state.entities, action.book]
     }));
+    return ctx.dispatch([new Navigate(['/books'])]);
   }
 
   @Selector()
