@@ -15,24 +15,14 @@ import { AsyncPipe } from '@angular/common';
 import { Select, Store } from '@ngxs/store';
 import { NewBookSelectStep } from '../state/new-book.actions';
 import { NewBookState } from '../state/new-book.state';
+import { BookNewInfoComponent } from './book-new-info/book-new-info.component';
 
 @Component({
   selector: 'ws-book-new',
   styleUrls: ['./book-new.component.scss'],
   templateUrl: './book-new.component.html',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormField,
-    MatButtonToggle,
-    MatButtonToggleGroup,
-    MatInput,
-    MatError,
-    MatButton,
-    RouterLink,
-    MatLabel,
-    AsyncPipe
-  ]
+  imports: [BookNewInfoComponent, MatButtonToggle, MatButtonToggleGroup, AsyncPipe]
 })
 export class BookNewComponent {
   NewBookStep = NewBookStep;

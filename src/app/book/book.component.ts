@@ -15,6 +15,6 @@ export class BookComponent {
   init = inject(Store)
     .dispatch(new BookLoadAll())
     .subscribe({
-      next: () => this.snackBar.open('Yay, Booooooks', 'thx')
+      next: () => this.snackBar.open('Yay, Booooooks', 'thx', { duration: 2000 })
     });
 }
