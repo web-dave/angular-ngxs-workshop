@@ -1,7 +1,8 @@
 <h2 class="mat-h2">Books</h2>
-
+<ws-search [(suche)]="filter" />
+<i>{{ filter }}</i>
 <div class="books-grid">
-  @for (book of books$ | async; track $index) {
+  @for (book of books(); track $index) {
     <ws-book-card [content]="book"></ws-book-card>
   }
 </div>

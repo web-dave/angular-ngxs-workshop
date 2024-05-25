@@ -1,0 +1,2 @@
+<input type="text" [value]="suche()" #searchInput (input)="suche.set(searchInput.value)" />
+<h2>{{ searchStr }} {{ suche() }}</h2>
