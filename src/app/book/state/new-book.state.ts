@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { NewBookStateModel, NewBookStep } from './new-book.model';
-import { NewBookSelectStep, NewBookSubmitStep } from './new-book.action';
+import { NewBookCreated, NewBookSelectStep, NewBookSubmitStep } from './new-book.action';
 import { Book, bookNa } from '../models';
 import { BookApiService } from '../book-api.service';
-import { tap } from 'rxjs';
+import { concatMap, tap } from 'rxjs';
+import { Navigate } from '@ngxs/router-plugin';
 
 const defaults: NewBookStateModel = {
   step: NewBookStep.info,
@@ -73,14 +74,23 @@ export class NewBookState {
         ...state,
         step: nextStep
       });
-      return true;
     } else {
-      const book: Book = { ...bookNa(), ...state.info.model, ...state.price.model };
-      return this.service.create(book).pipe(
-        tap(data => {
-          // ctx.dispatch()
-        })
-      );
+      const invalidStep = steps.find(step => state[step].status !== 'VALID');
+      if (invalidStep) {
+        ctx.setState({
+          ...state,
+          step: invalidStep
+        });
+      } else {
+        const book: Book = { ...bookNa(), ...state.info.model, ...state.price.model };
+        return this.service.create(book).pipe(
+          concatMap(created => {
+            ctx.setState(defaults);
+            return ctx.dispatch([new NewBookCreated(created), new Navigate(['/books'])]);
+          })
+        );
+      }
     }
+    return true;
   }
 }

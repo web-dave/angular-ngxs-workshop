@@ -1,3 +1,4 @@
+import { Book } from '../models';
 import { NewBookStep } from './new-book.model';
 
 export class NewBookSelectStep {
@@ -7,4 +8,8 @@ export class NewBookSelectStep {
 export class NewBookSubmitStep {
   static type = '[New Book] Submit Step';
   constructor(readonly step: NewBookStep) {}
+}
+export class NewBookCreated {
+  static type = '[New Book] Created';
+  constructor(readonly book: Book) {}
 }
