@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { NewBookSelectStep, NewBookSubmitStep } from '../state/new-book.action';
 import { NgxsFormDirective } from '@ngxs/form-plugin';
 import { InfoComponent } from './info/info.component';
+import { PriceComponent } from './price/price.component';
 
 @Component({
   selector: 'ws-book-new',
@@ -36,7 +37,8 @@ import { InfoComponent } from './info/info.component';
     AsyncPipe,
     MatButtonToggleModule,
     NgxsFormDirective,
-    InfoComponent
+    InfoComponent,
+    PriceComponent
   ]
 })
 export class BookNewComponent {
