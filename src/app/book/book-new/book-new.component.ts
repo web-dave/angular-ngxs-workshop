@@ -14,7 +14,9 @@ import { NewBookStep } from '../state/new-book.model';
 import { Select, Store } from '@ngxs/store';
 import { NewBookState } from '../state/new-book.state';
 import { Observable } from 'rxjs';
-import { NewBookSelectStep } from '../state/new-book.action';
+import { NewBookSelectStep, NewBookSubmitStep } from '../state/new-book.action';
+import { NgxsFormDirective } from '@ngxs/form-plugin';
+import { InfoComponent } from './info/info.component';
 
 @Component({
   selector: 'ws-book-new',
@@ -32,7 +34,9 @@ import { NewBookSelectStep } from '../state/new-book.action';
     MatLabel,
     JsonPipe,
     AsyncPipe,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    NgxsFormDirective,
+    InfoComponent
   ]
 })
 export class BookNewComponent {
@@ -40,16 +44,6 @@ export class BookNewComponent {
   @Select(NewBookState.step)
   step$!: Observable<NewBookStep>;
   store = inject(Store);
-
-  protected form = this.formBuilder.nonNullable.group({
-    title: ['', [Validators.required]],
-    subtitle: [''],
-    author: ['', [Validators.required]],
-    abstract: [''],
-    isbn: ['', [Validators.required, Validators.minLength(3)]],
-    cover: [''],
-    numPages: [0, [Validators.required, Validators.min(10)]]
-  });
 
   selectStep(step: NewBookStep) {
     this.store.dispatch(new NewBookSelectStep(step));
@@ -63,13 +57,15 @@ export class BookNewComponent {
   ) {}
 
   create() {
-    const book = { ...bookNa(), ...this.form.getRawValue() };
-    this.bookService
-      .create(book)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap(() => this.router.navigateByUrl('/'))
-      )
-      .subscribe();
+    this.store.dispatch(new NewBookSubmitStep(NewBookStep.info));
+
+    // const book = { ...bookNa(), ...this.form.getRawValue() };
+    // this.bookService
+    //   .create(book)
+    //   .pipe(
+    //     takeUntilDestroyed(this.destroyRef),
+    //     tap(() => this.router.navigateByUrl('/'))
+    //   )
+    //   .subscribe();
   }
 }
