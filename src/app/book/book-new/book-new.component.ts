@@ -14,6 +14,8 @@ import { Store } from '@ngxs/store';
 import { NewBookState } from '../state/new-book.state';
 import { NewBookStep } from '../state/new-book.model';
 import { NewBookSelectStep } from '../state/new-book.actions';
+import { NgxsFormPlugin, NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { BookNewInfoComponent } from './book-new-info/book-new-info.component';
 
 @Component({
   selector: 'ws-book-new',
@@ -22,15 +24,11 @@ import { NewBookSelectStep } from '../state/new-book.actions';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatFormField,
-    MatInput,
-    NgIf,
-    MatError,
-    MatButton,
     MatButtonToggleModule,
     RouterLink,
-    MatLabel,
-    AsyncPipe
+    AsyncPipe,
+    NgxsFormPluginModule,
+    BookNewInfoComponent
   ]
 })
 export class BookNewComponent {
