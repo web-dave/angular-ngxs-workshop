@@ -5,13 +5,13 @@ import { BookNewComponent } from './book-new/book-new.component';
 import { BookListComponent } from './book-list/book-list.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
 import { provideStore } from '@ngxs/store';
-import { BookColloectionState } from './state/book-collection.state';
+import { BookCollectionState } from './state/book-collection.state';
 
 export const bookRoutes: Routes = [
   {
     path: '',
     component: BookComponent,
-    providers: [provideStore([BookColloectionState])],
+    providers: [provideStore([BookCollectionState])],
     children: [
       {
         path: '',

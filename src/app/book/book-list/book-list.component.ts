@@ -4,7 +4,7 @@ import { Book } from '../models';
 import { BookCardComponent } from '../book-card/book-card.component';
 import { AsyncPipe, NgFor } from '@angular/common';
 import { Select } from '@ngxs/store';
-import { BookColloectionState } from '../state/book-collection.state';
+import { BookCollectionState } from '../state/book-collection.state';
 
 @Component({
   selector: 'ws-book-list',
@@ -14,6 +14,6 @@ import { BookColloectionState } from '../state/book-collection.state';
   imports: [NgFor, BookCardComponent, AsyncPipe]
 })
 export class BookListComponent {
-  @Select(BookColloectionState.entities)
+  @Select(BookCollectionState.entities)
   protected books$!: Observable<Book[]>;
 }

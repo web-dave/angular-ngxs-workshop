@@ -18,7 +18,7 @@ import {
 import { AsyncPipe, NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
-import { BookColloectionState } from '../state/book-collection.state';
+import { BookCollectionState } from '../state/book-collection.state';
 
 @Component({
   selector: 'ws-book-detail',
@@ -53,7 +53,7 @@ export class BookDetailComponent {
 
   @Input({ required: true })
   set isbn(isbn: string) {
-    this.book$ = this.store.select(BookColloectionState.entity(isbn)).pipe(filter((book): book is Book => !!book));
+    this.book$ = this.store.select(BookCollectionState.entity(isbn)).pipe(filter((book): book is Book => !!book));
     this.isbnValue = isbn;
   }
 
