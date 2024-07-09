@@ -1,4 +1,3 @@
-@if(form$ | async; as form){
 <form [formGroup]="form" ngxsForm="bookCollection.newBook.price" (ngSubmit)="submit()">
     <mat-form-field>
         <input matInput type="number" formControlName="price" placeholder="Price" required />
@@ -19,4 +18,4 @@
         </button>
     </div>
 </form>
-}
+<button (click)="setPages()">set P</button>
