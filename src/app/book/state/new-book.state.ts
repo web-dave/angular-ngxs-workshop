@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { NewBookStateModel, NewBookStep } from './new-book.model';
 import { Action, Selector, State, StateContext,  } from '@ngxs/store';
-import { NewBookAdd, NewBookSelectStep, NewBookSubmitStep } from './new-book.actions';
+import { NewBookAdd, NewBookSelectStep, NewBookSetPages, NewBookSubmitStep } from './new-book.actions';
 import { BookApiService } from '../book-api.service';
 import { Book } from '../models';
 import { EMPTY, first, pipe, tap } from 'rxjs';
@@ -68,6 +68,14 @@ export class NewBookState {
       // })
       return this.service.create(book).pipe( tap(data =>ctx.dispatch(new NewBookAdd(data))))
     }
+  }
+  @Action(NewBookSetPages)
+  setPages(ctx: StateContext<NewBookStateModel>, action: NewBookSetPages){
+    ctx.setState(state => ({...state, 
+      info:{...state.info,
+        model: {...state.info.model, numPages: action.pages}
+      }
+    }))
   }
 
   @Selector()

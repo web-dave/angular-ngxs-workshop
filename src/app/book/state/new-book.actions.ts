@@ -13,3 +13,8 @@ export class NewBookSubmitStep {
   static readonly type = '[New Book] Submit step';
   constructor(public step: NewBookStep) {}
 }
+
+export class NewBookSetPages {
+  static readonly type = '[New Book] Set Pages';
+  constructor(public pages: number) {}
+}
