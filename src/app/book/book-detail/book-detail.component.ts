@@ -1,5 +1,5 @@
 import { Component, DestroyRef, Input, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { BookApiService } from '../book-api.service';
@@ -42,6 +42,7 @@ import { BookCollectionState } from '../state/book-collection.state';
 })
 export class BookDetailComponent {
   store = inject(Store);
+  route = inject(ActivatedRoute)
   protected book$?: Observable<Book>;
   private isbnValue = '';
 
@@ -49,7 +50,9 @@ export class BookDetailComponent {
     private readonly router: Router,
     private readonly bookService: BookApiService,
     private readonly destroyRef: DestroyRef
-  ) {}
+  ) {
+    console.log(this.route.snapshot.data[1])
+  }
 
   @Input({ required: true })
   set isbn(isbn: string) {
