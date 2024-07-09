@@ -7,13 +7,14 @@ import { NewBookState } from '../state/new-book.state';
 import { NewBookStep } from '../state/new-book.model';
 import { NewBookSelectStep } from '../state/new-book.actions';
 import { BookNewInfoComponent } from './book-new-info/book-new-info.component';
+import { BookNewPriceComponent } from './book-new-price/book-new-price.component';
 
 @Component({
   selector: 'ws-book-new',
   styleUrls: ['./book-new.component.scss'],
   templateUrl: './book-new.component.html',
   standalone: true,
-  imports: [MatButtonToggleModule, RouterLink, AsyncPipe, BookNewInfoComponent]
+  imports: [MatButtonToggleModule, RouterLink, AsyncPipe, BookNewInfoComponent, BookNewPriceComponent]
 })
 export class BookNewComponent {
   store = inject(Store);

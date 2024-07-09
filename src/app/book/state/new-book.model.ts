@@ -2,6 +2,13 @@ export enum NewBookStep {
   info = 'INFO',
   price = 'PRICE'
 }
+export interface NewBookPriceStepModel {
+  model: {
+    price: number;
+  };
+  status: string;
+  dirty: boolean;
+}
 
 export interface NewBookInfoStepModel {
   model: {
@@ -20,4 +27,5 @@ export interface NewBookInfoStepModel {
 export interface NewBookStateModel {
   step: NewBookStep;
   info: NewBookInfoStepModel;
+  price: NewBookPriceStepModel
 }

@@ -23,7 +23,7 @@ export class BookNewInfoComponent {
   NewBookStep = NewBookStep;
   bookCollection = 'bookCollection';
   newBookFeature = 'newBook';
-  path = `${this.bookCollection},${this.newBookFeature}.info`;
+  path = `${this.bookCollection}.${this.newBookFeature}.info`;
 
   protected form = this.formBuilder.group({
     title: ['', [Validators.required]],

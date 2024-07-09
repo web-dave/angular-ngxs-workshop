@@ -1,7 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NewBookStateModel, NewBookStep } from './new-book.model';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { NewBookSelectStep, NewBookSubmitStep } from './new-book.actions';
+import { Action, Selector, State, StateContext,  } from '@ngxs/store';
+import { NewBookAdd, NewBookSelectStep, NewBookSubmitStep } from './new-book.actions';
+import { BookApiService } from '../book-api.service';
+import { Book } from '../models';
+import { EMPTY, first, pipe, tap } from 'rxjs';
+import { BookLoadAll } from './book-collection.actions';
 
 const infoDefault = {
   model: {
@@ -16,16 +20,25 @@ const infoDefault = {
   status: 'INVALID',
   dirty: false
 };
+const priceDefault = {
+  model: {
+    price: 0
+  },
+  status: 'INVALID',
+  dirty: false
+};
 
 @State<NewBookStateModel>({
   name: 'newBook',
   defaults: {
     step: NewBookStep.info,
-    info: infoDefault
+    info: infoDefault,
+    price: priceDefault
   }
 })
 @Injectable()
 export class NewBookState {
+  service = inject(BookApiService)
   @Action(NewBookSelectStep)
   setStep(ctx: StateContext<NewBookStateModel>, action: NewBookSelectStep) {
     ctx.setState(state => ({
@@ -43,11 +56,27 @@ export class NewBookState {
         ...state,
         step: nextStep
       }));
+      return EMPTY
+    } else{
+      const book = {
+        ...ctx.getState().info.model,
+        ...ctx.getState().price.model
+      } as Book
+      // // return 
+      // this.service.create(book).pipe(first()).subscribe(data =>{
+      //   ctx.dispatch(new BookLoadAll())
+      // })
+      return this.service.create(book).pipe( tap(data =>ctx.dispatch(new NewBookAdd(data))))
     }
   }
 
   @Selector()
   static step(state: NewBookStateModel) {
     return state.step;
+  }
+
+  @Selector()
+  static info(state: NewBookStateModel){
+    return state.info
   }
 }
