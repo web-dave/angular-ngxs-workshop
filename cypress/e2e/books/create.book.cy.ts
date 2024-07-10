@@ -1,6 +1,12 @@
 describe('As a user I want to check if a book can be created.', () => {
   let randomISBN = 0;
   beforeEach(() => {
+    cy.intercept('GET', 'http://localhost:4730/books', { fixture: 'books' });
+    // cy.intercept('POST', 'http://localhost:4730/books', { fixture: 'book' });
+    // cy.intercept('DELETE', 'http://localhost:4730/books/**', {
+    //   statusCode: 200,
+    //   body: ''
+    // });
     cy.visit('/');
     cy.get('mat-card').as('books');
   });
@@ -18,10 +24,10 @@ describe('As a user I want to check if a book can be created.', () => {
       .then(() => {
         cy.get('[routerlink="books/new"]').click();
 
-        cy.get('[formControlName="isbn"]').type('9781787125421').blur();
+        cy.get('[formControlName="isbn"]').type('978-0-20163-361-0').blur();
         cy.wait(1000);
         cy.get('mat-error').should('exist');
-        cy.contains('9781787125421 wird schon verwendet!');
+        cy.contains('978-0-20163-361-0 wird schon verwendet!');
         cy.get('[formControlName="isbn"]').clear();
         cy.get('[formControlName="isbn"]').type(randomISBN + '');
         cy.get('mat-error').should('not.exist');
