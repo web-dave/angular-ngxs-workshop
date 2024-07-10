@@ -19,37 +19,38 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './book-new-price.component.scss'
 })
 export class BookNewPriceComponent implements OnInit {
-  store = inject(Store)
-  formBuilder = inject(NonNullableFormBuilder)
-  dRef = inject(DestroyRef)
-  numPages = 123
-  minPrice = 0
+  store = inject(Store);
+  formBuilder = inject(NonNullableFormBuilder);
+  dRef = inject(DestroyRef);
+  numPages = 123;
+  minPrice = 0;
 
-  form: FormGroup<{price: FormControl<number>}> = this.formBuilder.group({
-    price: [0,[Validators.required]]
-  })
+  form: FormGroup<{ price: FormControl<number> }> = this.formBuilder.group({
+    price: [0, [Validators.required]]
+  });
 
   ngOnInit(): void {
-    this.store.select(NewBookState.info).pipe(
-      map(info =>{
-      const minPrice = info.model.numPages >=100? 10:0;
-      const minValidator = Validators.min(minPrice);
-      const priceCtrl = this.form.get('price') as FormControl<number>;
-      priceCtrl.removeValidators(Validators.min(this.minPrice))
-      this.minPrice = minPrice
-      priceCtrl.addValidators([minValidator]),
-      console.log(priceCtrl)
-      priceCtrl.updateValueAndValidity()
-    }),
-    takeUntilDestroyed(this.dRef)
-  ).subscribe()
-    
+    this.store
+      .select(NewBookState.info)
+      .pipe(
+        map(info => {
+          const minPrice = info.model.numPages >= 100 ? 10 : 0;
+          const minValidator = Validators.min(minPrice);
+          const priceCtrl = this.form.get('price') as FormControl<number>;
+          priceCtrl.removeValidators(Validators.min(this.minPrice));
+          this.minPrice = minPrice;
+          priceCtrl.addValidators([minValidator]), console.log(priceCtrl);
+          priceCtrl.updateValueAndValidity();
+        }),
+        takeUntilDestroyed(this.dRef)
+      )
+      .subscribe();
   }
 
-  setPages(){
-this.numPages = this.numPages === 99? 123: 99
+  setPages() {
+    this.numPages = this.numPages === 99 ? 123 : 99;
 
-this.store.dispatch(new NewBookSetPages(this.numPages))
+    this.store.dispatch(new NewBookSetPages(this.numPages));
   }
 
   // form$ = this.store.select(NewBookState.info).pipe(map(info =>{
@@ -59,8 +60,7 @@ this.store.dispatch(new NewBookSetPages(this.numPages))
   //   })
   // }))
 
-  submit(){
+  submit() {
     this.store.dispatch(new NewBookSubmitStep(NewBookStep.price));
   }
-
 }
