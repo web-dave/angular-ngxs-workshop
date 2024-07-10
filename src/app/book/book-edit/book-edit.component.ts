@@ -7,19 +7,25 @@ import { Book } from '../models';
 import { MatButton } from '@angular/material/button';
 import { MatInput, MatLabel } from '@angular/material/input';
 import { MatError, MatFormField } from '@angular/material/form-field';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import { BookCollectionState } from '../state/book-collection.state';
 
-
-const dollarValidator:ValidatorFn = (control: AbstractControl): ValidationErrors | null =>{
-  return (control as FormControl<string>).value.includes("$") ? {dollar: 'Bitte kein $ Zeichen verwenden!'}: null
-  
-}
-
-
+const dollarValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  return (control as FormControl<string>).value.includes('$') ? { dollar: 'Bitte kein $ Zeichen verwenden!' } : null;
+};
 
 @Component({
   selector: 'ws-book-edit',
@@ -32,26 +38,28 @@ export class BookEditComponent {
   protected book$: Observable<Book> = EMPTY;
 
   store = inject(Store);
-  route = inject(ActivatedRoute)
+  route = inject(ActivatedRoute);
 
-  formBuilder = inject(NonNullableFormBuilder)
+  formBuilder = inject(NonNullableFormBuilder);
   // protected book$?: Observable<Book>;
   isbnValue = '';
 
   form$ = this.route.params.pipe(
-    switchMap(({isbn}) =>this.store.select(BookCollectionState.entity(isbn)).pipe(filter((book): book is Book => !!book))),
-    map(
-    book => this.formBuilder.group({
-      title: [book.title,[dollarValidator]],
-      subtitle: book.subtitle,
-      author: book.author,
-      abstract: book.abstract,
-      isbn: book.isbn,
-      cover: book.cover,
-      numPages: book.numPages
-    })
-  ))
-
+    switchMap(({ isbn }) =>
+      this.store.select(BookCollectionState.entity(isbn)).pipe(filter((book): book is Book => !!book))
+    ),
+    map(book =>
+      this.formBuilder.group({
+        title: [book.title, [dollarValidator]],
+        subtitle: book.subtitle,
+        author: book.author,
+        abstract: book.abstract,
+        isbn: book.isbn,
+        cover: book.cover,
+        numPages: book.numPages
+      })
+    )
+  );
 
   @Input({ required: true })
   set isbn(isbn: string) {
@@ -109,8 +117,8 @@ export class BookEditComponent {
     //   .pipe(takeUntilDestroyed(this.destroyRef))
     //   .subscribe();
   }
-reset(form: FormGroup<any>){
-  form.reset();
-  console.log(form.getRawValue())
-}
+  reset(form: FormGroup<any>) {
+    form.reset();
+    console.log(form.getRawValue());
+  }
 }

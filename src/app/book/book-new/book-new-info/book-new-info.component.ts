@@ -8,6 +8,7 @@ import { Store } from '@ngxs/store';
 import { NewBookStep } from '../../state/new-book.model';
 import { NewBookState } from '../../state/new-book.state';
 import { NewBookSubmitStep } from '../../state/new-book.actions';
+import { isbnValidator } from './isbn.validator';
 
 @Component({
   selector: 'ws-book-new-info',
@@ -30,7 +31,7 @@ export class BookNewInfoComponent {
     subtitle: [''],
     author: ['', [Validators.required]],
     abstract: [''],
-    isbn: ['', [Validators.required, Validators.minLength(3)]],
+    isbn: ['', [Validators.required, Validators.minLength(3)], [isbnValidator()]],
     cover: [''],
     numPages: [0, [Validators.required, Validators.min(10)]]
   });
