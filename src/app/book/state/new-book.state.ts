@@ -1,30 +1,43 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NewBookModel, NewBookStep } from './new-book.model';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { NewBookSelectStep, NewBookSubmitStep } from './new-book.actions';
+import { NewBookCreated, NewBookSelectStep, NewBookSubmitStep } from './new-book.actions';
+import { concatMap, EMPTY } from 'rxjs';
+import { bookNa } from '../models';
+import { BookApiService } from '../book-api.service';
+import { Navigate } from '@ngxs/router-plugin';
+
+const defaults: NewBookModel = {
+  step: NewBookStep.INFO,
+  info: {
+    model: {
+      isbn: '',
+      title: '',
+      subtitle: '',
+      author: '',
+      abstract: '',
+      cover: '',
+      numPages: 0
+    },
+    dirty: false,
+    status: '',
+    errors: {}
+  },
+  price: {
+    model: { price: 0 },
+    dirty: false,
+    status: '',
+    errors: {}
+  }
+};
 
 @State<NewBookModel>({
   name: 'newBook',
-  defaults: {
-    step: NewBookStep.INFO,
-    info: {
-      model: {
-        abstract: '',
-        author: '',
-        cover: '',
-        isbn: '',
-        title: '',
-        subtitle: '',
-        numPages: 0
-      },
-      dirty: false,
-      status: '',
-      errors: {}
-    }
-  }
+  defaults: defaults
 })
 @Injectable()
 export class NewBookState {
+  bookApi = inject(BookApiService);
   @Selector()
   static step(state: NewBookModel) {
     return state.step;
@@ -49,6 +62,20 @@ export class NewBookState {
         ...state,
         step: nextStep
       });
+    } else {
+      return this.bookApi
+        .create({
+          ...bookNa(),
+          ...state.info.model,
+          price: state.price.model.price
+        })
+        .pipe(
+          concatMap(created => {
+            ctx.setState(defaults);
+            return ctx.dispatch([new NewBookCreated(created), new Navigate(['/books'])]);
+          })
+        );
     }
+    return EMPTY;
   }
 }

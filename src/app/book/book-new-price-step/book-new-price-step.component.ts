@@ -7,6 +7,8 @@ import { map } from 'rxjs';
 import { MatFormField, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { NgxsFormDirective } from '@ngxs/form-plugin';
+import { NewBookSubmitStep } from '../state/new-book.actions';
+import { NewBookStep } from '../state/new-book.model';
 
 @Component({
   selector: 'ws-book-new-price-step',
@@ -19,7 +21,8 @@ export class BookNewPriceStepComponent {
   form = new FormGroup({
     price: new FormControl(0, { validators: [Validators.required] })
   });
-  sub = inject(Store)
+  store = inject(Store);
+  sub = this.store
     .select(NewBookState.info)
     .pipe(
       takeUntilDestroyed(),
@@ -30,4 +33,8 @@ export class BookNewPriceStepComponent {
       this.form.controls.price.removeValidators(Validators.min(0));
       this.form.controls.price.addValidators(Validators.min(minP));
     });
+
+  submitStep() {
+    this.store.dispatch(new NewBookSubmitStep(NewBookStep.PRICE));
+  }
 }

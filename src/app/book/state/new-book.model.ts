@@ -22,4 +22,12 @@ export interface NewBookInfoStepModel {
 export interface NewBookModel {
   step: NewBookStep;
   info: NewBookInfoStepModel;
+  price: {
+    model: {
+      price: number;
+    };
+    dirty: boolean;
+    status: string;
+    errors: { [key: string]: ValidationErrors | null };
+  };
 }

@@ -6,12 +6,18 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { withNgxsFormPlugin } from '@ngxs/form-plugin';
+import { withNgxsRouterPlugin } from '@ngxs/router-plugin';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideAnimations(),
     provideRouter(routes, withComponentInputBinding()),
-    provideStore([], withNgxsFormPlugin(), withNgxsReduxDevtoolsPlugin({ disabled: !isDevMode() }))
+    provideStore(
+      [],
+      withNgxsFormPlugin(),
+      withNgxsRouterPlugin(),
+      withNgxsReduxDevtoolsPlugin({ disabled: !isDevMode() })
+    )
   ]
 };

@@ -6,6 +6,8 @@ import { Book } from '../models';
 import { BookApiService } from '../book-api.service';
 import { tap } from 'rxjs';
 import { NewBookState } from './new-book.state';
+import { NewBookCreated } from './new-book.actions';
+import { append, patch } from '@ngxs/store/operators';
 
 @State<BookCollectionModel>({
   name: 'bookCollection',
@@ -40,6 +42,15 @@ export class BookCollectionState {
         error: () => {
           ctx.dispatch(new BookLoadAllError());
         }
+      })
+    );
+  }
+
+  @Action(NewBookCreated)
+  created(ctx: StateContext<BookCollectionModel>, action: NewBookCreated) {
+    ctx.setState(
+      patch({
+        entities: append([action.book])
       })
     );
   }
