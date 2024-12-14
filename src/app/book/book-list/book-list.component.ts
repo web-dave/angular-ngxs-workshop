@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Book } from '../models';
 import { BookCardComponent } from '../book-card/book-card.component';
 import { AsyncPipe, NgFor } from '@angular/common';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { BookCollectionState } from '../state/book-collection.state';
 
 @Component({
