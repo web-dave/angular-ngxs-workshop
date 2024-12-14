@@ -5,12 +5,13 @@ import { withNgxsReduxDevtoolsPlugin } from '@ngxs/devtools-plugin';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { withNgxsFormPlugin } from '@ngxs/form-plugin';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideAnimations(),
     provideRouter(routes, withComponentInputBinding()),
-    provideStore([], withNgxsReduxDevtoolsPlugin({ disabled: !isDevMode() }))
+    provideStore([], withNgxsFormPlugin(), withNgxsReduxDevtoolsPlugin({ disabled: !isDevMode() }))
   ]
 };

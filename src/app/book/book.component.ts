@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { BookLoadAll } from './state/book-collection.actions';
@@ -11,19 +11,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
   imports: [RouterOutlet, MatSnackBarModule]
 })
-export class BookComponent implements OnInit {
+export class BookComponent {
   snackBar = inject(MatSnackBar);
-  store = inject(Store);
-  dRef = inject(DestroyRef);
+  sub = inject(Store)
+    .dispatch(new BookLoadAll())
+    .pipe(takeUntilDestroyed())
+    .subscribe(() => this.snackBar.open('Tadaaaa!', 'Yeah!', { duration: 2000 }));
 
-  ngOnInit(): void {
-    this.store
-      .dispatch(new BookLoadAll())
-      .pipe(takeUntilDestroyed(this.dRef))
-      .subscribe(() => this.snackBar.open('Tadaaaa!', 'Yeah!', { duration: 2000 }));
-  }
-  // sub = inject(Store)
-  //   .dispatch(new BookLoadAll())
-  //   .pipe(takeUntilDestroyed())
-  //   .subscribe(() => this.snackBar.open('Tadaaaa!', 'Yeah!', { duration: 2000 }));
+  // store = inject(Store);
+  // dRef = inject(DestroyRef);
+
+  // ngOnInit(): void {
+  //   this.store
+  //     .dispatch(new BookLoadAll())
+  //     .pipe(takeUntilDestroyed(this.dRef))
+  //     .subscribe(() => this.snackBar.open('Tadaaaa!', 'Yeah!', { duration: 2000 }));
+  // }
 }
