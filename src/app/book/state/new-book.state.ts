@@ -29,6 +29,10 @@ export class NewBookState {
   static step(state: NewBookModel) {
     return state.step;
   }
+  @Selector()
+  static info(state: NewBookModel) {
+    return state.info;
+  }
 
   @Action(NewBookSelectStep)
   newBookSelectStep(ctx: StateContext<NewBookModel>, action: NewBookSelectStep) {

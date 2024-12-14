@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -27,7 +27,7 @@ import { NgxsFormDirective } from '@ngxs/form-plugin';
   templateUrl: './book-new-info-step.component.html',
   styleUrl: './book-new-info-step.component.scss'
 })
-export class BookNewInfoStepComponent {
+export class BookNewInfoStepComponent implements OnDestroy {
   store = inject(Store);
   protected form = inject(NonNullableFormBuilder).group({
     title: ['', [Validators.required]],
@@ -41,5 +41,8 @@ export class BookNewInfoStepComponent {
 
   submitStep() {
     this.store.dispatch(new NewBookSubmitStep(NewBookStep.INFO));
+  }
+  ngOnDestroy(): void {
+    console.log('wech');
   }
 }

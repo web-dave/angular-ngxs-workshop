@@ -15,6 +15,7 @@ import { NewBookState } from '../state/new-book.state';
 import { NewBookStep } from '../state/new-book.model';
 import { NewBookSelectStep } from '../state/new-book.actions';
 import { BookNewInfoStepComponent } from '../book-new-info-step/book-new-info-step.component';
+import { BookNewPriceStepComponent } from '../book-new-price-step/book-new-price-step.component';
 
 @Component({
   selector: 'ws-book-new',
@@ -32,7 +33,8 @@ import { BookNewInfoStepComponent } from '../book-new-info-step/book-new-info-st
     MatLabel,
     AsyncPipe,
     NgIf,
-    BookNewInfoStepComponent
+    BookNewInfoStepComponent,
+    BookNewPriceStepComponent
   ]
 })
 export class BookNewComponent {

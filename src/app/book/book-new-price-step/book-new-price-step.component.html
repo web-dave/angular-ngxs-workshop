@@ -1,0 +1,14 @@
+<form [formGroup]="form" ngxsForm="bookCollection.newBook.price">
+  <mat-form-field>
+    <input matInput type="number" formControlName="price" placeholder="Price" required />
+    @if (form.hasError('min', 'price')) {
+      <mat-error> Price is too low ({{ form.getError('min', 'price').min }}) </mat-error>
+    }
+    @if (form.hasError('min', 'required')) {
+      <mat-error> Price is required </mat-error>
+    }
+  </mat-form-field>
+  <div>
+    <button mat-raised-button color="primary" [disabled]="!form.valid" type="submit">Submit</button>
+  </div>
+</form>
