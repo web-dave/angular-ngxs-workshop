@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
@@ -9,6 +9,8 @@ import { NgIf } from '@angular/common';
 import { MatInput, MatLabel } from '@angular/material/input';
 import { MatError, MatFormField } from '@angular/material/form-field';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { createBookStart } from '../store/book-collection.actions';
 
 @Component({
   selector: 'ws-book-new',
@@ -18,6 +20,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [ReactiveFormsModule, MatFormField, MatInput, NgIf, MatError, MatButton, RouterLink, MatLabel]
 })
 export class BookNewComponent {
+  private readonly store = inject(Store);
+
   protected form = this.formBuilder.nonNullable.group({
     title: ['', [Validators.required]],
     subtitle: [''],
@@ -33,7 +37,7 @@ export class BookNewComponent {
     private readonly router: Router,
     private readonly bookService: BookApiService,
     private readonly destroyRef: DestroyRef
-  ) {}
+  ) { }
 
   create() {
     const book = { ...bookNa(), ...this.form.getRawValue() };
@@ -43,6 +47,6 @@ export class BookNewComponent {
         takeUntilDestroyed(this.destroyRef),
         tap(() => this.router.navigateByUrl('/'))
       )
-      .subscribe();
+      .subscribe(book => this.store.dispatch(createBookStart({ book })));
   }
 }
