@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BookApiService } from '../book-api.service';
 import { Book } from '../models';
 import { BookCardComponent } from '../book-card/book-card.component';
 import { AsyncPipe, NgFor } from '@angular/common';
+import { Store } from '@ngrx/store';
+
+import { BookCollectionSlice } from '../store/book-collection.slice';
 
 @Component({
   selector: 'ws-book-list',
@@ -13,9 +15,10 @@ import { AsyncPipe, NgFor } from '@angular/common';
   imports: [NgFor, BookCardComponent, AsyncPipe]
 })
 export class BookListComponent {
-  protected books$: Observable<Book[]>;
-
-  constructor(private readonly bookService: BookApiService) {
-    this.books$ = this.bookService.getAll();
-  }
+  store = inject(
+    Store<{
+      books: { bookCollection: BookCollectionSlice };
+    }>
+  );
+  protected books$: Observable<ReadonlyArray<Book>> = this.store.select(state => state.books.bookCollection.entities);
 }
