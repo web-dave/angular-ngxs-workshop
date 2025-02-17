@@ -12,4 +12,8 @@ export const booksReducerMap: ActionReducerMap<BookState> = {
   bookCollection: bookCollectionReducer
 };
 
-export const selectBookFeature = createFeatureSelector<BookState>(bookFeatureName);
+export const selectBookFeature = createFeatureSelector<{
+  bookCollection: BookCollectionSlice;
+}>(bookFeatureName);
+
+//createFeatureSelector<BookState>(bookFeatureName);
