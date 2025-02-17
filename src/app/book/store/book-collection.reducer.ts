@@ -6,9 +6,9 @@ import { createReducer, on } from '@ngrx/store';
 const initialState: BookCollectionSlice = { entities: [] };
 
 export const bookCollectionReducer = createReducer(
-    initialState,
-    on(createBookStart, (state, action) => ({
-        ...state,
-        entities: [...state.entities, action.book]
-    }))
+  initialState,
+  on(createBookStart, (state, action) => ({
+    ...state,
+    entities: [...state.entities, action.book]
+  }))
 );

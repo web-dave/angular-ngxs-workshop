@@ -6,6 +6,7 @@ import { AsyncPipe, NgFor } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import { BookCollectionSlice } from '../store/book-collection.slice';
+import { selectBooks } from '../store/book-collection.selectors';
 
 @Component({
   selector: 'ws-book-list',
@@ -20,5 +21,5 @@ export class BookListComponent {
       books: { bookCollection: BookCollectionSlice };
     }>
   );
-  protected books$: Observable<ReadonlyArray<Book>> = this.store.select(state => state.books.bookCollection.entities);
+  protected books$: Observable<ReadonlyArray<Book>> = this.store.select(selectBooks);
 }
