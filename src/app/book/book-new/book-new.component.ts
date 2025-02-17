@@ -1,14 +1,12 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { tap } from 'rxjs/operators';
 import { BookApiService } from '../book-api.service';
 import { bookNa } from '../models';
 import { MatButton } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 import { MatInput, MatLabel } from '@angular/material/input';
 import { MatError, MatFormField } from '@angular/material/form-field';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { createBookStart } from '../store/book-collection.actions';
 
@@ -37,16 +35,10 @@ export class BookNewComponent {
     private readonly router: Router,
     private readonly bookService: BookApiService,
     private readonly destroyRef: DestroyRef
-  ) { }
+  ) {}
 
   create() {
     const book = { ...bookNa(), ...this.form.getRawValue() };
-    this.bookService
-      .create(book)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap(() => this.router.navigateByUrl('/'))
-      )
-      .subscribe(book => this.store.dispatch(createBookStart({ book })));
+    this.store.dispatch(createBookStart({ book }));
   }
 }

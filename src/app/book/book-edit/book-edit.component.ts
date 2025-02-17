@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -9,7 +9,8 @@ import { MatInput, MatLabel } from '@angular/material/input';
 import { MatError, MatFormField } from '@angular/material/form-field';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { updateBookStart } from '../store/book-collection.actions';
 
 @Component({
   selector: 'ws-book-edit',
@@ -21,6 +22,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class BookEditComponent {
   protected book$: Observable<Book> = EMPTY;
   protected isbnValue = '';
+
+  store = inject(Store);
 
   protected form = this.formBuilder.nonNullable.group({
     title: ['', [Validators.required]],
@@ -57,9 +60,6 @@ export class BookEditComponent {
   }
 
   save() {
-    this.bookService
-      .update(this.isbnValue, this.form.getRawValue())
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+    this.store.dispatch(updateBookStart({ book: this.form.getRawValue() as Book }));
   }
 }
