@@ -41,8 +41,11 @@ import { selectBook } from '../store/book-collection.selectors';
   ]
 })
 export class BookDetailComponent {
-  protected book$?: Observable<Book>;
   private isbnValue = '';
+  protected book$ = this.store
+    .select(selectBook)
+    .pipe(filter((book): book is Book => !!book))
+    .pipe(tap(book => (this.isbnValue = book.isbn)));
 
   constructor(
     private readonly router: Router,
@@ -51,11 +54,11 @@ export class BookDetailComponent {
     private readonly store: Store
   ) {}
 
-  @Input({ required: true })
-  set isbn(isbn: string) {
-    this.book$ = this.store.select(selectBook(isbn)).pipe(filter((book): book is Book => !!book));
-    this.isbnValue = isbn;
-  }
+  // @Input({ required: true })
+  // set isbn(isbn: string) {
+  //   this.book$ = this.store.select(selectBook).pipe(filter((book): book is Book => !!book));
+  //   this.isbnValue = isbn;
+  // }
 
   remove() {
     this.bookService
