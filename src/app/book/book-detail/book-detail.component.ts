@@ -1,7 +1,7 @@
-import { Component, DestroyRef, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { BookApiService } from '../book-api.service';
 import { Book } from '../models';
 import { MatButton } from '@angular/material/button';
@@ -17,6 +17,8 @@ import {
 } from '@angular/material/card';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngxs/store';
+import { BookState } from '../state/book.state';
 
 @Component({
   selector: 'ws-book-detail',
@@ -41,6 +43,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class BookDetailComponent {
   protected book$?: Observable<Book>;
   private isbnValue = '';
+  private readonly store = inject(Store);
 
   constructor(
     private readonly router: Router,
@@ -50,7 +53,7 @@ export class BookDetailComponent {
 
   @Input({ required: true })
   set isbn(isbn: string) {
-    this.book$ = this.bookService.getByIsbn(isbn);
+    this.book$ = this.store.select(BookState.entity(isbn)).pipe(filter((book): book is Book => !!book));
     this.isbnValue = isbn;
   }
 
