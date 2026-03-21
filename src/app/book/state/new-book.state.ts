@@ -21,6 +21,14 @@ import { NewBookSelectStep, NewBookSubmitStep } from './new-book.actions';
       dirty: false,
       status: '',
       errors: {}
+    },
+    price: {
+      model: {
+        price: 0
+      },
+      dirty: false,
+      status: '',
+      errors: {}
     }
   }
 })
@@ -29,6 +37,11 @@ export class NewBookState {
   @Selector()
   static step(state: NewBookStateModel) {
     return state.step;
+  }
+
+  @Selector()
+  static info(state: NewBookStateModel) {
+    return state.info;
   }
 
   @Action(NewBookSelectStep)

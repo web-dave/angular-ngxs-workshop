@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
-import { NgIf } from '@angular/common';
 import { MatInput, MatLabel } from '@angular/material/input';
 import { MatError, MatFormField } from '@angular/material/form-field';
 import { Store } from '@ngxs/store';
@@ -17,13 +16,19 @@ import { NgxsFormDirective } from '@ngxs/form-plugin';
       <mat-form-field>
         <mat-label>ISBN</mat-label>
         <input matInput formControlName="isbn" placeholder="ISBN" />
-        <mat-error *ngIf="form.hasError('minlength', 'isbn')"> ISBN has to be at least 3 characters long. </mat-error>
-        <mat-error *ngIf="form.hasError('required', 'isbn')"> ISBN is required </mat-error>
+        @if (form.hasError('minlength', 'isbn')) {
+          <mat-error> ISBN has to be at least 3 characters long. </mat-error>
+        }
+        @if (form.hasError('required', 'isbn')) {
+          <mat-error> ISBN is required </mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Title</mat-label>
         <input matInput formControlName="title" placeholder="Title" />
-        <mat-error *ngIf="form.hasError('required', 'title')"> Title is required </mat-error>
+        @if (form.hasError('required', 'title')) {
+          <mat-error> Title is required </mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Subtitle</mat-label>
@@ -32,7 +37,9 @@ import { NgxsFormDirective } from '@ngxs/form-plugin';
       <mat-form-field>
         <mat-label>Author</mat-label>
         <input matInput formControlName="author" placeholder="Author" />
-        <mat-error *ngIf="form.hasError('required', 'author')"> Author is required </mat-error>
+        @if (form.hasError('required', 'author')) {
+          <mat-error> Author is required </mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Abstract</mat-label>
@@ -41,8 +48,12 @@ import { NgxsFormDirective } from '@ngxs/form-plugin';
       <mat-form-field>
         <mat-label>Number of pages</mat-label>
         <input matInput formControlName="numPages" placeholder="Number of pages" type="number" />
-        <mat-error *ngIf="form.hasError('required', 'numPages')"> Number of pages is required </mat-error>
-        <mat-error *ngIf="form.hasError('min', 'numPages')"> A minimum of 10 pages is required </mat-error>
+        @if (form.hasError('required', 'numPages')) {
+          <mat-error> Number of pages is required </mat-error>
+        }
+        @if (form.hasError('min', 'numPages')) {
+          <mat-error> A minimum of 10 pages is required </mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Cover</mat-label>
@@ -74,17 +85,7 @@ import { NgxsFormDirective } from '@ngxs/form-plugin';
     }
   `,
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormField,
-    MatInput,
-    NgIf,
-    MatError,
-    MatButton,
-    RouterLink,
-    MatLabel,
-    NgxsFormDirective
-  ]
+  imports: [ReactiveFormsModule, MatFormField, MatInput, MatError, MatButton, RouterLink, MatLabel, NgxsFormDirective]
 })
 export class NewBookInfoComponent {
   private readonly store = inject(Store);

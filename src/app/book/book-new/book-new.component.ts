@@ -1,20 +1,18 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { BookApiService } from '../book-api.service';
 import { bookNa } from '../models';
-import { MatButton } from '@angular/material/button';
 import { MatButtonToggleGroup, MatButtonToggle } from '@angular/material/button-toggle';
-import { AsyncPipe, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { MatInput, MatLabel } from '@angular/material/input';
-import { MatError, MatFormField } from '@angular/material/form-field';
+import { AsyncPipe } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngxs/store';
 import { NewBookState } from '../state/new-book.state';
 import { NewBookStep } from '../state/new-book.models';
 import { NewBookSelectStep } from '../state/new-book.actions';
 import { NewBookInfoComponent } from './new-book/new-book-info.component';
+import { NewBookPriceComponent } from './new-book/new-book-price.component';
 
 @Component({
   selector: 'ws-book-new',
@@ -23,18 +21,10 @@ import { NewBookInfoComponent } from './new-book/new-book-info.component';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatFormField,
-    MatInput,
-    NgIf,
-    NgSwitch,
-    NgSwitchCase,
-    MatError,
-    MatButton,
-    RouterLink,
-    MatLabel,
     MatButtonToggleGroup,
     MatButtonToggle,
     NewBookInfoComponent,
+    NewBookPriceComponent,
     AsyncPipe
   ]
 })
