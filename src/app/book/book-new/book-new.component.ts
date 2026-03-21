@@ -1,23 +1,51 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { BookApiService } from '../book-api.service';
 import { bookNa } from '../models';
 import { MatButton } from '@angular/material/button';
-import { NgIf } from '@angular/common';
+import { MatButtonToggleGroup, MatButtonToggle } from '@angular/material/button-toggle';
+import { AsyncPipe, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { MatInput, MatLabel } from '@angular/material/input';
 import { MatError, MatFormField } from '@angular/material/form-field';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngxs/store';
+import { NewBookState } from '../state/new-book.state';
+import { NewBookStep } from '../state/new-book.models';
+import { NewBookSelectStep } from '../state/new-book.actions';
 
 @Component({
   selector: 'ws-book-new',
   styleUrls: ['./book-new.component.scss'],
   templateUrl: './book-new.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormField, MatInput, NgIf, MatError, MatButton, RouterLink, MatLabel]
+  imports: [
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+    MatError,
+    MatButton,
+    RouterLink,
+    MatLabel,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+
+    AsyncPipe
+  ]
 })
 export class BookNewComponent {
+  private readonly store = inject(Store);
+  step$ = this.store.select(NewBookState.step);
+  NewBookStep = NewBookStep;
+
+  selectStep(step: NewBookStep) {
+    this.store.dispatch(new NewBookSelectStep(step));
+  }
+
   protected form = this.formBuilder.nonNullable.group({
     title: ['', [Validators.required]],
     subtitle: [''],

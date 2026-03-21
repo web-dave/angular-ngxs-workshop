@@ -5,12 +5,14 @@ import { BookStateModel } from './book.model';
 import { BookLoadAll } from './book.actions';
 import { BookApiService } from '../book-api.service';
 import { tap } from 'rxjs';
+import { NewBookState } from './new-book.state';
 
 @State<BookStateModel>({
   name: 'bookState',
   defaults: {
     entities: []
-  }
+  },
+  children: [NewBookState]
 })
 @Injectable()
 export class BookState {

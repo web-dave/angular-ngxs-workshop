@@ -1,5 +1,19 @@
 <h2 class="mat-h2">Add New Book</h2>
-<form [formGroup]="form" (ngSubmit)="create()" class="book-new__form">
+{{ step$ | async }}
+
+<ng-container *ngIf="step$ | async as step">
+  <mat-button-toggle-group [value]="step" (change)="selectStep($event.value)">
+    <mat-button-toggle [value]="NewBookStep.info">Info</mat-button-toggle>
+    <mat-button-toggle [value]="NewBookStep.price">Price</mat-button-toggle>
+  </mat-button-toggle-group>
+  <ng-container [ngSwitch]="step">
+    <ng-container *ngSwitchCase="NewBookStep.info">
+      <!-- existing form -->
+    </ng-container>
+    <ng-container *ngSwitchCase="NewBookStep.price">Price Step</ng-container>
+  </ng-container>
+</ng-container>
+<!-- <form [formGroup]="form" (ngSubmit)="create()" class="book-new__form">
   <mat-form-field>
     <mat-label>ISBN</mat-label>
     <input matInput formControlName="isbn" placeholder="ISBN" />
@@ -39,4 +53,4 @@
     <button mat-button routerLink="/" type="button">Cancel</button>
     <button mat-raised-button color="primary" [disabled]="!form.valid" type="submit">Save</button>
   </div>
-</form>
+</form> -->
