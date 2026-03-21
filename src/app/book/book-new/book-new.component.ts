@@ -14,6 +14,7 @@ import { Store } from '@ngxs/store';
 import { NewBookState } from '../state/new-book.state';
 import { NewBookStep } from '../state/new-book.models';
 import { NewBookSelectStep } from '../state/new-book.actions';
+import { NewBookInfoComponent } from './new-book/new-book-info.component';
 
 @Component({
   selector: 'ws-book-new',
@@ -33,7 +34,7 @@ import { NewBookSelectStep } from '../state/new-book.actions';
     MatLabel,
     MatButtonToggleGroup,
     MatButtonToggle,
-
+    NewBookInfoComponent,
     AsyncPipe
   ]
 })

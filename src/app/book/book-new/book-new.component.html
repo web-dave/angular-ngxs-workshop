@@ -8,7 +8,7 @@
   </mat-button-toggle-group>
   <ng-container [ngSwitch]="step">
     <ng-container *ngSwitchCase="NewBookStep.info">
-      <!-- existing form -->
+      <ws-book-new-info />
     </ng-container>
     <ng-container *ngSwitchCase="NewBookStep.price">Price Step</ng-container>
   </ng-container>
