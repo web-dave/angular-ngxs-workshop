@@ -1,8 +1,8 @@
 import { ValidationErrors } from '@angular/forms';
 
 export enum NewBookStep {
-  info = 'INFO',
-  price = 'PRICE'
+  info = 'info',
+  price = 'price'
 }
 // dirty flag, status, errors
 

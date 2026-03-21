@@ -6,6 +6,8 @@ import { BookLoadAll } from './book.actions';
 import { BookApiService } from '../book-api.service';
 import { tap } from 'rxjs';
 import { NewBookState } from './new-book.state';
+import { NewBookCreated } from './new-book.actions';
+import { append, patch } from '@ngxs/store/operators';
 
 @State<BookStateModel>({
   name: 'bookState',
@@ -31,5 +33,14 @@ export class BookState {
     return this.service.getAll().pipe(tap(books => ctx.patchState({ entities: books })));
     // ctx.setState(state => ({ ...state, entities: books }));
     // ctx.patchState({ entities: books });
+  }
+
+  @Action(NewBookCreated)
+  created(ctx: StateContext<BookStateModel>, action: NewBookCreated) {
+    ctx.setState(
+      patch({
+        entities: append([action.book])
+      })
+    );
   }
 }

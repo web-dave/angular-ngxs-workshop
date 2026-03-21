@@ -22,7 +22,7 @@ import { AsyncPipe } from '@angular/common';
             <mat-error> Price is too low ({{ form.getError('min', 'price').min }}) </mat-error>
           }
           @if (form.hasError('min', 'required')) {
-            <mat-error *ngIf="form.hasError('min', 'required')"> Price is required </mat-error>
+            <mat-error> Price is required </mat-error>
           }
         </mat-form-field>
         <div>
